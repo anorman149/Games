@@ -1,1 +1,4 @@
-sceneSetups: []
+sceneSetups:
+- path: Assets/PowerUps Vol 1 Free/Scenes/DemoScene.unity
+  isLoaded: 1
+  isActive: 1
