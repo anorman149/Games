@@ -105,6 +105,10 @@
       <Project>{BA293491-C411-11EA-0721-FEF6495825EF}</Project>
       <Name>GameName.CSharp.Plugins</Name>
     </ProjectReference>
+    <ProjectReference Include="GameName.CSharp.csproj">
+      <Project>{70C3A3E5-9F64-2F3E-8E18-91CC34232FCC}</Project>
+      <Name>GameName.CSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
