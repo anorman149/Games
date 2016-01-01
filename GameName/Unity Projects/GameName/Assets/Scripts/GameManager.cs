@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
@@ -15,9 +16,14 @@ public class GameManager : MonoBehaviour {
         }
 
         DontDestroyOnLoad(gameObject);
-	}
+    }
 
     public void GameOver() {
         enabled = false;
+    }
+
+    //This is called each time a scene is loaded.
+    void OnLevelWasLoaded(int index) {
+        level++;
     }
 }

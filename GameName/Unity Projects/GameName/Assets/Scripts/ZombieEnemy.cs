@@ -13,4 +13,11 @@
 
         base.TakeDamage(damage);
     }
+
+    protected override void onCantMove<T>(T component) {
+        //Play Animation for taking damage
+        animator.SetTrigger("zombieAttack");
+
+        base.onCantMove(component);
+    }
 }

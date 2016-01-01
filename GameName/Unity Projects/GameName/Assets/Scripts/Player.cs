@@ -23,24 +23,23 @@ public class Player : Unit {
 	// Update is called once per frame
 	void Update () {
         int horizontal = (int)Input.GetAxisRaw("Horizontal");
-        int vertical = (int)Input.GetAxisRaw("Vertical");
 
-        if (horizontal != 0 || vertical != 0) {
-            AttemptMove<Enemy>(horizontal, vertical);
+        if (horizontal != 0) {
+            AttemptMove<Enemy>(horizontal);
         }
 	}
 
-    protected override void AttemptMove <T>(int xDir, int yDir) {
+    protected override void AttemptMove <T>(int xDir) {
         RaycastHit2D hit;
 
-        if (Move(xDir, yDir, out hit)) {
+        if (Move(xDir, out hit)) {
             //TODO play sound or something
         }
     }
 
     protected override void onCantMove<T>(T component) {
         //Need to make sure it's an Enemy
-        //If so, the Enemy will do damage; caused by running into an Enemy
+        //Enemy will do damage; caused by running into an Enemy
         if (component is Enemy) {
             Enemy enemy = component as Enemy;
 

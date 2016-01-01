@@ -17,9 +17,9 @@ public abstract class MovingObject : MonoBehaviour {
         inverseMoveTime = 1f / moveTime;
 	}
 
-    protected bool Move(int xDir, int yDir, out RaycastHit2D hit) {
+    protected bool Move(int xDir, out RaycastHit2D hit) {
         Vector2 start = transform.position;
-        Vector2 end = start + new Vector2(xDir, xDir);
+        Vector2 end = start + new Vector2(xDir, 0);
 
         boxCollider.enabled = false;
         hit = Physics2D.Linecast(start, end, blockingLayer);
@@ -44,11 +44,11 @@ public abstract class MovingObject : MonoBehaviour {
         }
     }
 
-    protected virtual void AttemptMove <T>(int xDir, int yDir)
+    protected virtual void AttemptMove <T>(int xDir)
         where T : Component {
 
         RaycastHit2D hit;
-        bool canMove = Move(xDir, yDir, out hit);
+        bool canMove = Move(xDir, out hit);
 
         if (hit.transform == null) {
             return;

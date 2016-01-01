@@ -46,7 +46,7 @@ public class Enemy : Unit {
             xDir = target.position.x > transform.position.x ? 1 : -1;
         }
 
-        AttemptMove<Player>(xDir, yDir);
+        AttemptMove<Player>(xDir);
     }
 
     public override void CheckDeath() {
