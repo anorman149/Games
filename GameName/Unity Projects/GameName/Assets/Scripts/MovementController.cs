@@ -1,68 +1,34 @@
 ﻿using UnityEngine;
 
-public abstract class MovementController : MonoBehaviour {
-    protected Vector3 move = Vector3.zero;
-
-    public float speed;
-    public float runSpeed;
-    public float jumpSpeed;
-    protected bool isGrounded;
-    bool facingRight;
-
-    protected Vector3 gravity = Vector3.zero;
-    protected BoxCollider2D boxCollider;
-    protected Rigidbody2D rigidBody;
-    public Transform groundCheck;
-    protected float groundRadius = 0.2f;
-    public LayerMask theGround;
-
-    protected virtual void Start() {
-        boxCollider = GetComponent<BoxCollider2D>();
-        rigidBody = GetComponent<Rigidbody2D>();
-
-        //Set default params
-        isGrounded = true;
-        facingRight = true;
-    }
-
-    protected virtual void FixedUpdate() {
-        Move();
-    }
+public class MovementController : MonoBehaviour {
 
     /// <summary>
     /// Will move the Unit while checking for direction
     /// </summary>
-    protected void Move() {
-        //Move the unit
-        rigidBody.velocity = new Vector2(move.x * speed, rigidBody.velocity.y);
-
-        //Clamp the position of the player into the boundaries
-        float maxWidth = GameManager.instance.maxWidth - boxCollider.bounds.extents.x;
-        transform.position = (new Vector2(Mathf.Clamp(transform.position.x, -maxWidth, maxWidth), transform.position.y));
+    /// <param name="unit">Unit to Move</param>
+    /// <param name="move">Vector3 Movement</param>
+    public static void Move(Unit unit, Vector3 move) {
+        ////Move the unit
+        GameManager.instance.platform.Move(unit, move);
 
         //If the unit moved direction
-        if (move.x > 0 && !facingRight) {
-            Flip();
-        } else if(move.x < 0 && facingRight) {
-            Flip();
+        if (move.x > 0 && !unit.FacingRight) {
+            Flip(unit);
+        } else if(move.x < 0 && unit.FacingRight) {
+            Flip(unit);
         }
 
-        //Character Animation
-        Animate();
+        //Character Animation for Move
+        unit.Animate(Animation.Walk, move.x);
     }
 
     /// <summary>
     /// Will change the direction of the Unit
     /// </summary>
-    protected void Flip() {
-        facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
+    private static void Flip(Unit unit) {
+        unit.FacingRight = !unit.FacingRight;
+        Vector3 theScale = unit.transform.localScale;
         theScale.x *= -1;
-        transform.localScale = theScale;
+        unit.transform.localScale = theScale;
     }
-
-    /// <summary>
-    /// Trigger Animation
-    /// </summary>
-    protected abstract void Animate();
 }

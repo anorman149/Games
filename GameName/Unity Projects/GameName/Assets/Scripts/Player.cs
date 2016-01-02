@@ -4,16 +4,17 @@ public class Player : Unit {
     private int coins;
     private int lives;
 
-    protected Animator animator;
-
     // Use this for initialization
-    protected override void Start () {
-        animator = GetComponent<Animator>();
+    protected virtual void Start () {
+        Animator = GetComponent<Animator>();
+        Collider = GetComponent<BoxCollider2D>();
+        RigidBody = GetComponent<Rigidbody2D>();
 
+        //Setup default params
         coins = GameManager.instance.playerCoins;
         lives = GameManager.instance.playerLives;
-
-        base.Start();	
+        IsGrounded = true;
+        FacingRight = true;
 	}
 
     /// <summary>
@@ -25,27 +26,29 @@ public class Player : Unit {
         GameManager.instance.playerLives = lives;
     }
 
-	protected override void FixedUpdate() {
+	void FixedUpdate() {
+        //TODO Add audio or something here
+
         //Grab locations and set
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        move = new Vector3(horizontal, 0f, vertical);
+        Vector3 move = new Vector3(horizontal, 0f, vertical);
 
         //Check whether we are on the ground or not
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, theGround);
-        animator.SetBool("Ground", isGrounded);
-        
+        UnitController.UnitOnGround(this);
+
         //Only update for moving if we actually moved horizontally
         if (horizontal != 0) {
-            base.FixedUpdate();
+            MovementController.Move(this, move);
         }
     }
 
     void Update() {
         //See if we are jumping
-        if (Input.GetKey(KeyCode.Space) && isGrounded) {
-            animator.SetBool("Ground", false);
-            rigidBody.AddForce(new Vector2(0, jumpSpeed));
+        if (Input.GetKey(KeyCode.Space) && IsGrounded) {
+            //Set the animation
+            Animate(Animation.Ground, false);
+            RigidBody.AddForce(new Vector2(0, JumpSpeed));
         }
     }
 
@@ -54,10 +57,10 @@ public class Player : Unit {
     /// </summary>
     /// <param name="damage">Amount of Damage to Player</param>
     public override void TakeDamage(int damage) {
-        health -= damage;
+        Health -= damage;
 
         //Play Animation for taking damage
-        animator.SetTrigger("Damage");
+        Animate(Animation.Damage, "");
 
         //Need to check and see if we died
         CheckDeath();
@@ -69,7 +72,7 @@ public class Player : Unit {
     /// If another life exists, it will use it
     /// </summary>
     public override void CheckDeath() {
-        if (health <= 0) {
+        if (Health <= 0) {
             if (lives <= 0) {
                 //TODO add Sound
                 enabled = false;
@@ -95,7 +98,7 @@ public class Player : Unit {
             Enemy enemy = obj as Enemy;
 
             //Let's do some damage
-            enemy.TakeDamage(damage);
+            enemy.TakeDamage(Damage);
         }
     }
 
@@ -122,15 +125,8 @@ public class Player : Unit {
     /// </summary>
     public void FinishLevel() {
         enabled = false;
-        boxCollider.enabled = false;
+        Collider.enabled = false;
 
         //TODO add more code for finishing level
-    }
-
-    /// <summary>
-    /// Will Animate the Player's Walking
-    /// </summary>
-    protected override void Animate() {
-        animator.SetFloat("Speed", Mathf.Abs(move.x));
     }
 }

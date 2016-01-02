@@ -2,17 +2,18 @@
 
 public class Enemy : Unit {
 
-    protected Animator animator;
     private Transform target;
 
     protected int coinsToTakeAway;
     protected int enemiesToSpawn;
     protected int enemySpawnFreq;
 
-    protected override void Start () {
-        animator = GetComponent<Animator>();
+    protected virtual void Start () {
+        Animator = GetComponent<Animator>();
+        Collider = GetComponent<BoxCollider2D>();
+        RigidBody = GetComponent<Rigidbody2D>();
+
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        base.Start();
 	}
 
     /// <summary>
@@ -25,7 +26,7 @@ public class Enemy : Unit {
             Player player = obj as Player;
 
             //Let's do some damage and take away coins
-            player.TakeDamage(damage);
+            player.TakeDamage(Damage);
             player.LoseCoins(coinsToTakeAway);
         }
     }
@@ -35,10 +36,10 @@ public class Enemy : Unit {
     /// </summary>
     /// <param name="damage">Amount of Damage to Enemy</param>
     public override void TakeDamage(int damage) {
-        health -= damage;
+        Health -= damage;
 
         //Play Animation for taking damage
-        animator.SetTrigger("Damage");
+        Animate(Animation.Damage, "");
 
         //Need to check and see if the Enemy died
         CheckDeath();
@@ -58,9 +59,9 @@ public class Enemy : Unit {
 
     //Need to check if the Enemy has died
     public override void CheckDeath() {
-        if (health <= 0) {
+        if (Health <= 0) {
             //Play death animation
-            animator.SetTrigger("Die");
+            Animate(Animation.Die, "");
 
             //TODO add more things to do before dying
 
@@ -70,12 +71,5 @@ public class Enemy : Unit {
 
     public override void OnTriggerEnter2D(Collider2D collider) {
         //TODO add collision to things
-    }
-
-    /// <summary>
-    /// Will Animate the Enemie's Walking
-    /// </summary>
-    protected override void Animate() {
-        animator.SetFloat("Speed", Mathf.Abs(move.x));
     }
 }
