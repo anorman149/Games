@@ -3,11 +3,12 @@
 public class Player : Unit {
     private int coins;
     private int lives;
+    public float WeaponRange;
 
     // Use this for initialization
     protected virtual void Start () {
         Animator = GetComponent<Animator>();
-        Collider = GetComponent<BoxCollider2D>();
+        Collider = GetComponent<PolygonCollider2D>();
         RigidBody = GetComponent<Rigidbody2D>();
 
         //Setup default params
@@ -26,29 +27,38 @@ public class Player : Unit {
         GameManager.instance.playerLives = lives;
     }
 
-	void FixedUpdate() {
-        //TODO Add audio or something here
-
-        //Grab locations and set
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector3 move = new Vector3(horizontal, 0f, vertical);
+	public override void FixedUpdate() {
+        base.FixedUpdate();
 
         //Check whether we are on the ground or not
         UnitController.UnitOnGround(this);
 
-        //Only update for moving if we actually moved horizontally
-        if (horizontal != 0) {
-            MovementController.Move(this, move);
-        }
+        //TODO Add audio or something here
+
+        //Check if Player moved
+        Move();
     }
 
     void Update() {
         //See if we are jumping
-        if (Input.GetKey(KeyCode.Space) && IsGrounded) {
+        if (GameManager.instance.platform.CheckPlayerJump(this)) {
             //Set the animation
             Animate(Animation.Ground, false);
-            RigidBody.AddForce(new Vector2(0, JumpSpeed));
+
+            MovementController.Jump(this);
+        }
+    }
+
+    /// <summary>
+    /// Will move the Player if the input was detected
+    /// </summary>
+    private void Move() {
+        //Check if Player moved
+        Vector3 move = GameManager.instance.platform.CheckPlayerMovement();
+
+        //Only update for moving if we actually moved
+        if(!move.Equals(Vector3.zero)) {
+            MovementController.Move(this, move);
         }
     }
 
@@ -62,8 +72,32 @@ public class Player : Unit {
         //Play Animation for taking damage
         Animate(Animation.Damage, "");
 
+        RigidBody.AddForce(Vector3.left * 10);
+
         //Need to check and see if we died
-        CheckDeath();
+        CheckHealth();
+    }
+
+    public void SubtractLife() {
+        if(lives <= 0) {
+            Death();
+            return;
+        } else {
+            lives -= 1;
+        }
+    }
+
+    /// <summary>
+    /// Will kill the Unit
+    /// </summary>
+    public void Death() {
+        //TODO add some things that make the User die or relocate
+        enabled = false;
+
+        //TODO Add sound
+
+        //The game has ended if no lives
+        GameManager.instance.GameOver();
     }
 
     /// <summary>
@@ -71,20 +105,11 @@ public class Player : Unit {
     /// If the Player has no more lives, it will end the game
     /// If another life exists, it will use it
     /// </summary>
-    public override void CheckDeath() {
+    public override void CheckHealth() {
         if (Health <= 0) {
-            if (lives <= 0) {
-                //TODO add Sound
-                enabled = false;
-
-                //The game has ended if no lives
-                GameManager.instance.GameOver();
-                return;
-            }
-
             //TODO add Sound
             //TODO add Animation for using Life
-            lives -= 1;           
+            SubtractLife();
         }
     }
 
@@ -92,10 +117,13 @@ public class Player : Unit {
     /// Unit to Attack
     /// </summary>
     /// <param name="obj">Which Object the Unit will do damage to</param>
-    public override void DealDamage(object obj) {
-        //Check to see if the Object is an Enemy
-        if (obj is Enemy) {
-            Enemy enemy = obj as Enemy;
+    public override void DealDamage(GameObject gameObject) {
+        //Check to see if the Object is an Enemy AND if the Enemy is in Range of the Player's weapon
+        if(gameObject.tag.Equals("Enemy") && CheckDistanceFromUnit(gameObject.GetComponent<Enemy>()) <= WeaponRange) {
+            Enemy enemy = gameObject.GetComponent<Enemy>();
+
+            //Play Animation for taking damage
+            Animate(Animation.Attack, "");
 
             //Let's do some damage
             enemy.TakeDamage(Damage);
@@ -125,8 +153,15 @@ public class Player : Unit {
     /// </summary>
     public void FinishLevel() {
         enabled = false;
-        Collider.enabled = false;
 
         //TODO add more code for finishing level
+    }
+
+    public override void OnCollisionEnter2D(Collision2D collision) {
+        //TODO MAYBE add code to attack Enemy. Suppose to be gun.
+    }
+
+    private float CheckDistanceFromUnit(Unit enemyUnit) {
+        return Vector3.Distance(transform.position, enemyUnit.transform.position);
     }
 }

@@ -1,5 +1,5 @@
 ﻿public enum Animation {
-    Die,
+    Dead,
     Walk,
     Idle,
     Attack,

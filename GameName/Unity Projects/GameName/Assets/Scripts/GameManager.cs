@@ -6,7 +6,9 @@ public class GameManager : MonoBehaviour {
     public int playerCoins;
     public int playerLives;
 
+    [HideInInspector]
     public Camera cam;
+
     public float maxWidth;
 
     public Platform platform;

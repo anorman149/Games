@@ -2,8 +2,11 @@
 using UnityEngine;
 
 public class Apple : Platform {
+    public override Vector3 CheckPlayerMovement() {
+        throw new NotImplementedException();
+    }
 
-    public override void Move(Unit unit, Vector3 move) {
+    public override bool CheckPlayerJump(Unit unit) {
         throw new NotImplementedException();
     }
 }

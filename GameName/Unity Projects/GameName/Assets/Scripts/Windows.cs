@@ -1,13 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Windows : Platform {
+    public override Vector3 CheckPlayerMovement() {
+        Vector3 move = Vector3.zero;
 
-    public override void Move(Unit unit, Vector3 move) {
-        //Move the unit
-        unit.RigidBody.velocity = new Vector2(move.x * unit.Speed, unit.RigidBody.velocity.y);
+        //Grab locations and set
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-        //Clamp the position of the player into the boundaries
-        float maxWidth = GameManager.instance.maxWidth - unit.Collider.bounds.extents.x;
-        unit.transform.position = (new Vector2(Mathf.Clamp(unit.transform.position.x, -maxWidth, maxWidth), unit.transform.position.y));
+        //Only set if Player moved
+        if(horizontal != 0) {
+            move = new Vector3(horizontal, 0f, vertical);
+        }
+
+        return move;
+    }
+
+    public override bool CheckPlayerJump(Unit unit) {
+        if(Input.GetKey(KeyCode.Space) && unit.IsGrounded) {
+            return true;
+        }
+
+        return false;
     }
 }

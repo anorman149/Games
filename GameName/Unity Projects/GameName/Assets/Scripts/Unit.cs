@@ -4,19 +4,27 @@ public abstract class Unit : MonoBehaviour {
     public int Health;
     public int Damage;
     public float Speed;
-    public float JumpSpeed;
+    public float JumpVelocity;
     public bool IsGrounded;
     public bool FacingRight;
-    public Animator Animator;
-    public Collider2D Collider;
-    public Rigidbody2D RigidBody;
+
     public LayerMask TheGround;
     public Transform GroundCheck;
 
-    public abstract void DealDamage(object obj);
-    public abstract void CheckDeath();
+    //Hide these in Inspector
+    [HideInInspector]
+    public Animator Animator;
+    [HideInInspector]
+    public Collider2D Collider;
+    [HideInInspector]
+    public Rigidbody2D RigidBody;
+
+
+    public abstract void DealDamage(GameObject gameObject);
+    public abstract void CheckHealth();
     public abstract void TakeDamage(int damage);
     public abstract void OnTriggerEnter2D(Collider2D collider);
+    public abstract void OnCollisionEnter2D(Collision2D collision);
 
     /// <summary>
     /// Will Animate the Unit with the supplied values
@@ -25,5 +33,20 @@ public abstract class Unit : MonoBehaviour {
     /// <param name="value">The value for the Animation</param>
     public void Animate(Animation animation, object value) {
         AnimationMethods.setAnimationTypeAndValue(animation, Animator, value);
+    }
+
+    /// <summary>
+    /// Will check if the Unit is activated or not (dead or not)
+    /// </summary>
+    /// <returns></returns>
+    public virtual bool IsDead() {
+        return !enabled;
+    }
+
+    /// <summary>
+    /// The FixedUpdate method for the Units to override
+    /// </summary>
+    public virtual void FixedUpdate() {
+        MovementController.ClampUnit(this);
     }
 }
