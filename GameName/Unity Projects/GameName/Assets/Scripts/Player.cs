@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Player : Unit {
     private int coins;
     private int lives;
+    private float knockBackPower = 6f;
+
     public float WeaponRange;
 
     // Use this for initialization
@@ -67,12 +70,13 @@ public class Player : Unit {
     /// </summary>
     /// <param name="damage">Amount of Damage to Player</param>
     public override void TakeDamage(int damage) {
-        Health -= damage;
+        CurrentHealth -= damage;
 
         //Play Animation for taking damage
         Animate(Animation.Damage, "");
 
-        RigidBody.AddForce(Vector3.left * 10);
+        //Knock the character back a little
+        StartCoroutine(MovementController.KnockBack(0.02f, knockBackPower, this));
 
         //Need to check and see if we died
         CheckHealth();
@@ -81,20 +85,24 @@ public class Player : Unit {
     public void SubtractLife() {
         if(lives <= 0) {
             Death();
-            return;
         } else {
             lives -= 1;
+            CurrentHealth = Health;
         }
     }
 
     /// <summary>
     /// Will kill the Unit
     /// </summary>
-    public void Death() {
+    public override void Death() {
         //TODO add some things that make the User die or relocate
-        enabled = false;
+        //enabled = false;
 
-        //TODO Add sound
+        //Play death animation
+        Dead = true;
+        Animate(Animation.Dead, Dead);
+
+        //TODO Add sound and reload the level
 
         //The game has ended if no lives
         GameManager.instance.GameOver();
@@ -106,7 +114,7 @@ public class Player : Unit {
     /// If another life exists, it will use it
     /// </summary>
     public override void CheckHealth() {
-        if (Health <= 0) {
+        if (CurrentHealth <= 0) {
             //TODO add Sound
             //TODO add Animation for using Life
             SubtractLife();
@@ -119,7 +127,7 @@ public class Player : Unit {
     /// <param name="obj">Which Object the Unit will do damage to</param>
     public override void DealDamage(GameObject gameObject) {
         //Check to see if the Object is an Enemy AND if the Enemy is in Range of the Player's weapon
-        if(gameObject.tag.Equals("Enemy") && CheckDistanceFromUnit(gameObject.GetComponent<Enemy>()) <= WeaponRange) {
+        if(gameObject.tag.Equals("Enemy") && MovementController.CheckDistanceFromUnit(this, gameObject.GetComponent<Enemy>()) <= WeaponRange) {
             Enemy enemy = gameObject.GetComponent<Enemy>();
 
             //Play Animation for taking damage
@@ -158,10 +166,6 @@ public class Player : Unit {
     }
 
     public override void OnCollisionEnter2D(Collision2D collision) {
-        //TODO MAYBE add code to attack Enemy. Suppose to be gun.
-    }
-
-    private float CheckDistanceFromUnit(Unit enemyUnit) {
-        return Vector3.Distance(transform.position, enemyUnit.transform.position);
+        //TODO MAYBE add code to attack Enemy. Supposed to be gun.
     }
 }

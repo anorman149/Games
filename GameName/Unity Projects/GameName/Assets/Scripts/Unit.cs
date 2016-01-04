@@ -2,11 +2,13 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour {
     public int Health;
+    public int CurrentHealth;
     public int Damage;
     public float Speed;
     public float JumpVelocity;
     public bool IsGrounded;
     public bool FacingRight;
+    public bool Dead = false;
 
     public LayerMask TheGround;
     public Transform GroundCheck;
@@ -19,9 +21,9 @@ public abstract class Unit : MonoBehaviour {
     [HideInInspector]
     public Rigidbody2D RigidBody;
 
-
     public abstract void DealDamage(GameObject gameObject);
     public abstract void CheckHealth();
+    public abstract void Death();
     public abstract void TakeDamage(int damage);
     public abstract void OnTriggerEnter2D(Collider2D collider);
     public abstract void OnCollisionEnter2D(Collision2D collision);
@@ -36,11 +38,11 @@ public abstract class Unit : MonoBehaviour {
     }
 
     /// <summary>
-    /// Will check if the Unit is activated or not (dead or not)
+    /// Check to see if the Dead Animation has been triggered or not (dead or not)
     /// </summary>
     /// <returns></returns>
     public virtual bool IsDead() {
-        return !enabled;
+        return Dead;
     }
 
     /// <summary>

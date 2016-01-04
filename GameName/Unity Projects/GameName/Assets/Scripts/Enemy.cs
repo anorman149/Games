@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Enemy : Unit {
 
@@ -10,7 +9,8 @@ public class Enemy : Unit {
     protected int coinsToTakeAway;
     protected int enemiesToSpawn;
     protected int enemySpawnFreq;
-    protected bool spawning;
+    private bool spawning;
+    private float maxDistanceToPlayer = 2f;
 
     protected virtual void Start () {
         Animator = GetComponent<Animator>();
@@ -28,9 +28,7 @@ public class Enemy : Unit {
         //Need to account for Spwaning
         spawning = Animator.GetCurrentAnimatorStateInfo(0).IsName("Appear") && !Animator.IsInTransition(0);
 
-        if(!IsDead() && !player.IsDead() && !spawning) {
-            MoveEnemy();
-        }
+        MoveEnemy();
     }
 
     /// <summary>
@@ -42,7 +40,13 @@ public class Enemy : Unit {
             Vector3 move = playerTransform.position - transform.position;
             move.Normalize();
 
-            MovementController.Move(this, move);
+            //Only need to move if the distance is within it's max
+            if(MovementController.CheckDistanceFromUnit(this, player) > maxDistanceToPlayer) {
+                MovementController.Move(this, move);
+            } else {
+                //Turn animation off
+                Animate(Animation.Walk, 0f);
+            }
 
             //TODO Add sound or something
         }
@@ -57,12 +61,15 @@ public class Enemy : Unit {
         if (gameObject.tag.Equals("Player")) {
             Player player = gameObject.GetComponent<Player>();
 
-            //Play Animation for taking damage
-            Animate(Animation.Attack, "");
+            //We should probably only do damage if the Player is NOT Dead
+            if(!player.IsDead()) {
+                //Play Animation for taking damage
+                Animate(Animation.Attack, "");
 
-            //Let's do some damage and take away coins
-            player.TakeDamage(Damage);
-            player.LoseCoins(coinsToTakeAway);
+                //Let's do some damage and take away coins
+                player.TakeDamage(Damage);
+                player.LoseCoins(coinsToTakeAway);
+            }
         }
     }
 
@@ -84,7 +91,7 @@ public class Enemy : Unit {
 
     //Need to check if the Enemy has died
     public override void CheckHealth() {
-        if (Health <= 0) {
+        if (CurrentHealth <= 0) {
             Death();
         }
     }
@@ -92,9 +99,10 @@ public class Enemy : Unit {
     /// <summary>
     /// Will kill the Unit
     /// </summary>
-    public void Death() {
+    public override void Death() {
         //Play death animation
-        Animate(Animation.Dead, true);
+        Dead = true;
+        Animate(Animation.Dead, Dead);
 
         //TODO add Sound and more things to do before dying
 
@@ -110,6 +118,10 @@ public class Enemy : Unit {
         //Check to see if we ran into the Player
         if(collision.gameObject.tag.Equals("Player")) {
             DealDamage(collision.gameObject);
+
+            RigidBody.isKinematic = true;
+
+            //StartCoroutine(MovementController.StopMovement(10, this));
         }
     }
 

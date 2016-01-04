@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class MovementController : MonoBehaviour {
 
@@ -48,5 +49,48 @@ public class MovementController : MonoBehaviour {
         //Clamp the position of the player into the boundaries
         float maxWidth = GameManager.instance.maxWidth - unit.Collider.bounds.extents.x;
         unit.transform.position = (new Vector2(Mathf.Clamp(unit.transform.position.x, -maxWidth, maxWidth), unit.transform.position.y));
+    }
+
+    /// <summary>
+    /// Will Knock the Unit back
+    /// </summary>
+    /// <param name="duration">Duration of KnockBack</param>
+    /// <param name="knockBackPower">Power of the KnockBack</param>
+    /// <param name="unit">Unit to Knockback</param>
+    /// <returns></returns>
+    public static IEnumerator KnockBack(float duration, float knockBackPower, Unit unit) {
+        float timer = 0;
+
+        while(duration > timer) {
+            timer += Time.deltaTime;
+
+            float moveX = unit.FacingRight ? -knockBackPower : knockBackPower;
+
+            unit.RigidBody.velocity = new Vector2(moveX, 0);
+
+            //Make sure they are still clamped
+            ClampUnit(unit);
+        }
+
+        yield return 0;
+    }
+
+    /// <summary>
+    /// Will check the distance between Units
+    /// </summary>
+    /// <param name="a">Unit to check with</param>
+    /// <param name="b">Unit to check against</param>
+    /// <returns></returns>
+    public static float CheckDistanceFromUnit(Unit a, Unit b) {
+        return Vector3.Distance(a.transform.position, b.transform.position);
+    }
+
+    public static IEnumerator StopMovement(float duration, Unit unit) {
+        unit.RigidBody.velocity = Vector3.zero;
+        unit.RigidBody.angularVelocity = 0;
+
+        new WaitForSeconds(duration);
+
+        yield return 0;
     }
 }
