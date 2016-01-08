@@ -84,13 +84,4 @@ public class MovementController : MonoBehaviour {
     public static float CheckDistanceFromUnit(Unit a, Unit b) {
         return Vector3.Distance(a.transform.position, b.transform.position);
     }
-
-    public static IEnumerator StopMovement(float duration, Unit unit) {
-        unit.RigidBody.velocity = Vector3.zero;
-        unit.RigidBody.angularVelocity = 0;
-
-        new WaitForSeconds(duration);
-
-        yield return 0;
-    }
 }

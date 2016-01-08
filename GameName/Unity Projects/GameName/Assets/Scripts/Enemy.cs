@@ -2,31 +2,38 @@
 
 public class Enemy : Unit {
 
-    private Transform playerTransform;
-    private GameObject targetPlayer;
     private Player player;
 
     protected int coinsToTakeAway;
-    protected int enemiesToSpawn;
-    protected int enemySpawnFreq;
     private bool spawning;
     private float maxDistanceToPlayer = 2f;
+    private float distanceFromPlayer;
+    private float attackWaitTime = 1f;
 
     protected virtual void Start () {
         Animator = GetComponent<Animator>();
         Collider = GetComponent<PolygonCollider2D>();
         RigidBody = GetComponent<Rigidbody2D>();
 
-        targetPlayer = GameObject.FindGameObjectWithTag("Player");
-        player = targetPlayer.GetComponent<Player>();
-        playerTransform = targetPlayer.transform;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     public override void FixedUpdate() {
         base.FixedUpdate();
 
-        //Need to account for Spwaning
+        //Need to account for Spawning
         spawning = Animator.GetCurrentAnimatorStateInfo(0).IsName("Appear") && !Animator.IsInTransition(0);
+        if(spawning) {
+            return;
+        }
+
+        //Check to see if the Unit needs to wait
+        if(wait) {
+            return;
+        }
+
+        //Check for Distance
+        distanceFromPlayer = MovementController.CheckDistanceFromUnit(this, player);
 
         MoveEnemy();
     }
@@ -35,20 +42,18 @@ public class Enemy : Unit {
     /// Will control the enemies
     /// </summary>
     public void MoveEnemy() {
-        //Distance between the Enemey and the Player
-        if(!IsDead() && !player.IsDead() && !spawning) {
-            Vector3 move = playerTransform.position - transform.position;
+        //Only need to move if the distance is within it's max and Player is not Dead
+        if(!player.IsDead() && distanceFromPlayer > maxDistanceToPlayer) {
+            //Distance between the Enemey and the Player
+            Vector3 move = player.transform.position - transform.position;
             move.Normalize();
-
-            //Only need to move if the distance is within it's max
-            if(MovementController.CheckDistanceFromUnit(this, player) > maxDistanceToPlayer) {
-                MovementController.Move(this, move);
-            } else {
-                //Turn animation off
-                Animate(Animation.Walk, 0f);
-            }
+            
+            MovementController.Move(this, move);
 
             //TODO Add sound or something
+        } else {
+            //Turn animation off
+            Animate(Animation.Walk, 0f);
         }
     }
 
@@ -78,7 +83,7 @@ public class Enemy : Unit {
     /// </summary>
     /// <param name="damage">Amount of Damage to Enemy</param>
     public override void TakeDamage(int damage) {
-        Health -= damage;
+        CurrentHealth -= damage;
 
         //Play Animation for taking damage
         Animate(Animation.Damage, "");
@@ -119,9 +124,8 @@ public class Enemy : Unit {
         if(collision.gameObject.tag.Equals("Player")) {
             DealDamage(collision.gameObject);
 
-            RigidBody.isKinematic = true;
-
-            //StartCoroutine(MovementController.StopMovement(10, this));
+            //Stop the enemy from moving for a little
+            StartCoroutine(UnitController.WaitForSeconds(attackWaitTime, this));
         }
     }
 

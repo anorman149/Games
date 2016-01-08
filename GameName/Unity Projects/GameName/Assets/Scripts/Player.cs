@@ -21,20 +21,13 @@ public class Player : Unit {
         FacingRight = true;
 	}
 
-    /// <summary>
-    /// If the Player is disabled for some reason the 
-    /// coins and lives will be transfered to Game Manager
-    /// </summary>
-    private void OnDisable() {
-        GameManager.instance.playerCoins = coins;
-        GameManager.instance.playerLives = lives;
-    }
-
 	public override void FixedUpdate() {
         base.FixedUpdate();
 
-        //Check whether we are on the ground or not
-        UnitController.UnitOnGround(this);
+        //Check to see if the Unit needs to wait
+        if(wait) {
+            return;
+        }
 
         //TODO Add audio or something here
 
@@ -50,6 +43,15 @@ public class Player : Unit {
 
             MovementController.Jump(this);
         }
+    }
+
+    /// <summary>
+    /// If the Player is disabled for some reason the 
+    /// coins and lives will be transfered to Game Manager
+    /// </summary>
+    private void OnDisable() {
+        GameManager.instance.playerCoins = coins;
+        GameManager.instance.playerLives = lives;
     }
 
     /// <summary>

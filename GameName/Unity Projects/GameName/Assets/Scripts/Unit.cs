@@ -9,6 +9,7 @@ public abstract class Unit : MonoBehaviour {
     public bool IsGrounded;
     public bool FacingRight;
     public bool Dead = false;
+    public bool wait = false;
 
     public LayerMask TheGround;
     public Transform GroundCheck;
@@ -50,5 +51,8 @@ public abstract class Unit : MonoBehaviour {
     /// </summary>
     public virtual void FixedUpdate() {
         MovementController.ClampUnit(this);
+
+        //Check whether we are on the ground or not
+        UnitController.UnitOnGround(this);
     }
 }
