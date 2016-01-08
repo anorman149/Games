@@ -83,12 +83,29 @@ public class Player : Unit {
         CheckHealth();
     }
 
+    /// <summary>
+    /// Will subtract a Life and start back at MaxHealth. 
+    /// If there are no Lives left, Death is called.
+    /// </summary>
     public void SubtractLife() {
         if(lives <= 0) {
             Death();
         } else {
             lives -= 1;
             CurrentHealth = MaxHealth;
+        }
+    }
+
+    /// <summary>
+    /// Will add the supplied health to the health total
+    /// </summary>
+    /// <param name="amountOfHealth">Amount of health to add</param>
+    public void AddHealth(int amountOfHealth) {
+        CurrentHealth += amountOfHealth;
+
+        //Can't go over 100, so set it back
+        if(CurrentHealth > 100) {
+            CurrentHealth = 100;
         }
     }
 

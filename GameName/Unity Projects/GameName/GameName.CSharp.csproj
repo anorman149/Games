@@ -92,7 +92,6 @@
   <ItemGroup>
     <None Include="Assets\Backgrounds\Fantasy World Game Background\Read me.txt" />
     <None Include="Assets\Backgrounds\bulkhead-walls-files\license.txt" />
-    <None Include="Assets\PowerUps Vol 1 Free\Readme.txt" />
     <None Include="Assets\Sprites\Players\Soldier\Read Me.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

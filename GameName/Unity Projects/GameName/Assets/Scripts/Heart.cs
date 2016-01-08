@@ -1,29 +1,40 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Heart : MonoBehaviour, IItem {
-    private int value = 0;
+    private int value = 10;
 
     private Animator animator;
 
     public void AnimateOnPickup() {
-        throw new NotImplementedException();
+        AnimationMethods.setAnimationTypeAndValue(Animation.Collide, GetComponent<Animator>(), true);
     }
 
     public void DisableOnPickup() {
-        throw new NotImplementedException();
+        //TODO Disable Object
+        GetComponent<Renderer>().enabled = false;
+
+        Destroy(this.gameObject);
     }
 
     public IItem GetItem() {
-        throw new NotImplementedException();
+        return this;
     }
 
     public int GetValue() {
-        throw new NotImplementedException();
+        return value;
     }
 
     public void PickupAction(GameObject gameObject) {
-        throw new NotImplementedException();
+        if(gameObject.tag.Equals("Player")) {
+            //The Player has collided
+            Player player = gameObject.GetComponent<Player>();
+
+            //Add the appropriate amount of Health
+            player.AddHealth(value);
+
+            //Animate
+            AnimateOnPickup();
+        }
     }
 
     // Use this for initialization
