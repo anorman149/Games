@@ -1,7 +1,7 @@
 ﻿public class ZombieEnemy : Enemy {
     protected override void Start() {
-        Health = 100;
-        CurrentHealth = Health;
+        MaxHealth = 100;
+        CurrentHealth = MaxHealth;
         Damage = 10;
         Speed = 3f;
         JumpVelocity = 60;

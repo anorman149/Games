@@ -73,7 +73,7 @@ public class Enemy : Unit {
 
                 //Let's do some damage and take away coins
                 player.TakeDamage(Damage);
-                player.LoseCoins(coinsToTakeAway);
+                player.SubtractCoins(coinsToTakeAway);
             }
         }
     }

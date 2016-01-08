@@ -6,5 +6,6 @@
     Jump,
     Fall,
     Damage,
-    Ground
+    Ground,
+    Collide
 }

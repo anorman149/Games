@@ -6,9 +6,6 @@ public class GameManager : MonoBehaviour {
     public int playerCoins;
     public int playerLives;
 
-    [HideInInspector]
-    public Camera cam;
-
     public float maxWidth;
 
     public Platform platform;
@@ -18,11 +15,6 @@ public class GameManager : MonoBehaviour {
             instance = this;
         } else if(instance != null) {
             Destroy(gameObject);
-        }
-
-        //Setup Camera
-        if (cam == null) {
-            cam = Camera.main;
         }
 
         //Setup Platform
@@ -35,7 +27,7 @@ public class GameManager : MonoBehaviour {
 
         //Need to grab the Width of the Scene
         Vector3 uppercorner = new Vector3(Screen.width, Screen.height, 0.0f);
-        Vector3 targetWidth = cam.ScreenToWorldPoint(uppercorner);
+        Vector3 targetWidth = GetComponent<Camera>().ScreenToWorldPoint(uppercorner);
         maxWidth = targetWidth.x;
 
         //So the Application doesn't destroy this Object

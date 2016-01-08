@@ -1,7 +1,7 @@
 ﻿public class VampireEnemy : Enemy {
     protected override void Start() {
-        Health = 150;
-        CurrentHealth = Health;
+        MaxHealth = 150;
+        CurrentHealth = MaxHealth;
         Damage = 20;
         Speed = 3f;
         JumpVelocity = 60;

@@ -1,7 +1,7 @@
 ﻿public class SoilderPlayer : Player {
     protected override void Start() {
-        Health = 100;
-        CurrentHealth = Health;
+        MaxHealth = 100;
+        CurrentHealth = MaxHealth;
         Damage = 50;
         Speed = 4;
         JumpVelocity = 90;
