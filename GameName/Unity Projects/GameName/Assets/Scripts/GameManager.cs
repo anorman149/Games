@@ -49,5 +49,7 @@ public class GameManager : MonoBehaviour {
         //TODO Add things to do before end of Game
 
         enabled = false;
+
+        //TODO Maybe go back to Start Screen or Continue Screen?
     }
 }

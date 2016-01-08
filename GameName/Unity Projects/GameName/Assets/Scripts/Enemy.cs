@@ -32,8 +32,15 @@ public class Enemy : Unit {
             return;
         }
 
+        //Check to see if the Unit is Dead
+        if(Dead) {
+            disable();
+        }
+
         //Check for Distance
-        distanceFromPlayer = MovementController.CheckDistanceFromUnit(this, player);
+        if(!player.IsDead()) {
+            distanceFromPlayer = MovementController.CheckDistanceFromUnit(this, player);
+        }
 
         MoveEnemy();
     }
@@ -109,10 +116,21 @@ public class Enemy : Unit {
         Dead = true;
         Animate(Animation.Dead, Dead);
 
-        //TODO add Sound and more things to do before dying
+        //Stop the Movement
+        MovementController.StopMovement(this);
 
-        //enabled = false;
-        //renderer.enabled = false;
+        //Wait until the Animation has finished
+        StartCoroutine(UnitController.WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length, this));
+
+        //TODO add Sound and more things to do before dying
+    }
+
+    /// <summary>
+    /// Will Disable and Destroy the Unit
+    /// </summary>
+    private void disable() {
+        Destroy(this.gameObject);
+        GetComponent<Renderer>().enabled = false;
     }
 
     public override void OnTriggerEnter2D(Collider2D collider) {

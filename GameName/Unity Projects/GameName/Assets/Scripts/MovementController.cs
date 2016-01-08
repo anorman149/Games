@@ -84,4 +84,12 @@ public class MovementController : MonoBehaviour {
     public static float CheckDistanceFromUnit(Unit a, Unit b) {
         return Vector3.Distance(a.transform.position, b.transform.position);
     }
+
+    /// <summary>
+    /// Will Stop the Movement of the Unit
+    /// </summary>
+    /// <param name="unit">The Unit to stope the Movement of</param>
+    public static void StopMovement(Unit unit) {
+        unit.RigidBody.velocity = Vector3.zero;
+    }
 }

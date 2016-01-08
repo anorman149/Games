@@ -28,6 +28,11 @@ public class Player : Unit {
             return;
         }
 
+        //Check to see if the Unit is Dead
+        if(Dead) {
+            disable();
+        }
+
         //TODO Add audio or something here
 
         //Check if Player moved
@@ -113,14 +118,26 @@ public class Player : Unit {
     /// Will kill the Unit
     /// </summary>
     public override void Death() {
-        //TODO add some things that make the User die or relocate
-        //enabled = false;
-
         //Play death animation
         Dead = true;
         Animate(Animation.Dead, Dead);
 
-        //TODO Add sound and reload the level
+        //Stop the Movement
+        MovementController.StopMovement(this);
+
+        //Wait until the Animation has finished
+        StartCoroutine(UnitController.WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length + .5f, this));
+
+        //TODO Add sound
+    }
+
+    /// <summary>
+    /// Will Disable and Destroy the Unit
+    /// </summary>
+    private void disable() {
+        enabled = false;
+        Destroy(this.gameObject);
+        GetComponent<Renderer>().enabled = false;
 
         //The game has ended if no lives
         GameManager.instance.GameOver();
@@ -151,8 +168,10 @@ public class Player : Unit {
             //Play Animation for taking damage
             Animate(Animation.Attack, "");
 
-            //Let's do some damage
-            enemy.TakeDamage(Damage);
+            //If not Dead, do some damage
+            if(!enemy.IsDead()) {
+                enemy.TakeDamage(Damage);
+            }
         }
     }
 
