@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : Unit {
     private int coins;
@@ -168,6 +167,6 @@ public class Player : Unit {
     }
 
     public override void OnCollisionEnter2D(Collision2D collision) {
-        //TODO MAYBE add code to attack Enemy. Supposed to be gun.
+        
     }
 }
