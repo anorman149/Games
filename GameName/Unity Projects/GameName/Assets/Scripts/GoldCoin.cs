@@ -3,11 +3,8 @@
 public class GoldCoin : MonoBehaviour, IItem {
     private int value = 10;
 
-    private Animator animator;
-    private Renderer rend;
-
     public void AnimateOnPickup() {
-        AnimationMethods.setAnimationTypeAndValue(Animation.Collide, animator, true);
+        AnimationMethods.setAnimationTypeAndValue(Animation.Collide, GetComponent<Animator>(), true);
     }
 
     public IItem GetItem() {
@@ -20,7 +17,7 @@ public class GoldCoin : MonoBehaviour, IItem {
 
     public void DisableOnPickup() {
         //TODO Disable Object
-        rend.enabled = false;
+        GetComponent<Renderer>().enabled = false;
 
         Destroy(this.gameObject);
     }
@@ -39,8 +36,7 @@ public class GoldCoin : MonoBehaviour, IItem {
     }
 
     void Start () {
-        animator = GetComponent<Animator>();
-        rend = GetComponent<Renderer>();
+
     }
 	
 	void Update () {

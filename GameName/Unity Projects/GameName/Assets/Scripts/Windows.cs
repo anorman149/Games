@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Windows : Platform {
     public override Vector3 CheckPlayerMovement() {
