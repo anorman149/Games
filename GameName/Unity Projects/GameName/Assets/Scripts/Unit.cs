@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public abstract class Unit : MonoBehaviour {
+    [HideInInspector]
     public int MaxHealth;
+
     public int CurrentHealth;
     public int Damage;
     public float Speed;
