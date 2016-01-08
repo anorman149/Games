@@ -25,4 +25,20 @@ public class UnitController : MonoBehaviour {
         yield return new WaitForSeconds(duration);
         unit.wait = false;
     }
+
+    /// <summary>
+    /// Will determine if the Units are facing each other
+    /// 
+    /// Was cheaper than doing a RayCast
+    /// </summary>
+    /// <param name="a">Unit A to compare</param>
+    /// <param name="b">Unit B to compare</param>
+    /// <returns></returns>
+    public static bool UnitsFacingEachOther(Unit a, Unit b) {
+        if((a.FacingRight && !b.FacingRight) || (!a.FacingRight && b.FacingRight)) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -165,11 +165,11 @@ public class Player : Unit {
         if(gameObject.tag.Equals("Enemy") && MovementController.CheckDistanceFromUnit(this, gameObject.GetComponent<Enemy>()) <= WeaponRange) {
             Enemy enemy = gameObject.GetComponent<Enemy>();
 
-            //Play Animation for taking damage
-            Animate(Animation.Attack, "");
+            //If not Dead AND the Player is facing the same direction, then do some damage
+            if(!enemy.IsDead() && UnitController.UnitsFacingEachOther(this, enemy)) {
+                //Play Animation for taking damage
+                Animate(Animation.Attack, "");
 
-            //If not Dead, do some damage
-            if(!enemy.IsDead()) {
                 enemy.TakeDamage(Damage);
             }
         }
