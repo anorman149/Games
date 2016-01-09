@@ -47,6 +47,12 @@ public class Player : Unit {
 
             MovementController.Jump(this);
         }
+
+        //See if they are off the ground. They can 
+        //push DOWN and fall faster
+        if(!IsGrounded && GameManager.instance.platform.CheckVertical()) {
+            MovementController.FallFaster(this);
+        }
     }
 
     /// <summary>

@@ -92,4 +92,12 @@ public class MovementController : MonoBehaviour {
     public static void StopMovement(Unit unit) {
         unit.RigidBody.velocity = Vector3.zero;
     }
+
+    /// <summary>
+    /// Will allow the Unit to fall at a faster rate
+    /// </summary>
+    /// <param name="unit">Unit to fall</param>
+    public static void FallFaster(Unit unit) {
+        unit.RigidBody.velocity = new Vector2(0, unit.RigidBody.velocity.y - 1);
+    }
 }
