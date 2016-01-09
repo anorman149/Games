@@ -11,7 +11,6 @@ public abstract class Platform {
     /// <summary>
     /// Will check to see if the Player has Jumped
     /// </summary>
-    /// <param name="unit">Unit to Check</param>
     /// <returns>bool - True if Player Jumped</returns>
-    public abstract bool CheckPlayerJump(Unit unit);
+    public abstract bool CheckPlayerJump();
 }

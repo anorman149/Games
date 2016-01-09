@@ -15,7 +15,6 @@ public class EnemyManager : MonoBehaviour {
         InvokeRepeating("Spawn", 0, spawnTime);
     }
 
-
     void Spawn() {
         // Don't spawn if dead
         if(player.IsDead()) {

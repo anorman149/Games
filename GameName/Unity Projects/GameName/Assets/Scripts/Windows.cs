@@ -16,8 +16,8 @@ public class Windows : Platform {
         return move;
     }
 
-    public override bool CheckPlayerJump(Unit unit) {
-        if(Input.GetKey(KeyCode.Space) && unit.IsGrounded) {
+    public override bool CheckPlayerJump() {
+        if(Input.GetKey(KeyCode.Space)) {
             return true;
         }
 

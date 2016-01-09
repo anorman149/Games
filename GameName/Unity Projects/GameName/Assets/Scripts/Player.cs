@@ -41,7 +41,7 @@ public class Player : Unit {
 
     void Update() {
         //See if we are jumping
-        if (GameManager.instance.platform.CheckPlayerJump(this)) {
+        if (GameManager.instance.platform.CheckPlayerJump() && IsGrounded) {
             //Set the animation
             Animate(Animation.Ground, false);
 
