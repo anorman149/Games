@@ -80,7 +80,9 @@ public class Enemy : Unit {
 
                 //Let's do some damage and take away coins
                 player.TakeDamage(Damage);
-                player.SubtractCoins(coinsToTakeAway);
+
+                //Subtract the necessary amount of coins
+                GameManager.instance.SubtractCoins(coinsToTakeAway);
             }
         }
     }

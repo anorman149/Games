@@ -25,10 +25,8 @@ public class GoldCoin : MonoBehaviour, IItem {
     public void PickupAction(GameObject gameObject) {
         if(gameObject.tag.Equals("Player")) {
             //The Player has collided
-            Player player = gameObject.GetComponent<Player>();
-
-            //Subtract the appropriate amount of coins
-            player.AddCoins(value);
+            //Add the appropriate amount of coins
+            GameManager.instance.AddCoins(value);
 
             //Animate
             AnimateOnPickup();

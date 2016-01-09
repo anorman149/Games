@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 
 public class Player : Unit {
-    private int coins;
-    private int lives;
     private float knockBackPower = 6f;
 
     public float WeaponRange;
@@ -13,9 +11,6 @@ public class Player : Unit {
         Collider = GetComponent<PolygonCollider2D>();
         RigidBody = GetComponent<Rigidbody2D>();
 
-        //Setup default params
-        coins = GameManager.instance.playerCoins;
-        lives = GameManager.instance.playerLives;
         IsGrounded = true;
         FacingRight = true;
 	}
@@ -56,15 +51,6 @@ public class Player : Unit {
     }
 
     /// <summary>
-    /// If the Player is disabled for some reason the 
-    /// coins and lives will be transfered to Game Manager
-    /// </summary>
-    private void OnDisable() {
-        GameManager.instance.playerCoins = coins;
-        GameManager.instance.playerLives = lives;
-    }
-
-    /// <summary>
     /// Will move the Player if the input was detected
     /// </summary>
     private void Move() {
@@ -99,10 +85,10 @@ public class Player : Unit {
     /// If there are no Lives left, Death is called.
     /// </summary>
     public void SubtractLife() {
-        if(lives <= 0) {
+        if(GameManager.instance.playerLives <= 0) {
             Death();
         } else {
-            lives -= 1;
+            GameManager.instance.playerLives -= 1;
             CurrentHealth = MaxHealth;
         }
     }
@@ -196,27 +182,6 @@ public class Player : Unit {
         }
 
         //TODO Need to figure out Exits
-    }
-
-    /// <summary>
-    /// Will subtract coins from Player
-    /// </summary>
-    /// <param name="coinsLost">Amount of coins to lose</param>
-    public void SubtractCoins(int coinsLost) {
-        coins -= coinsLost;
-
-        //If coins are now below 0, let's set to 0
-        if (coins < 0) {
-            coins = 0;
-        }
-    }
-
-    /// <summary>
-    /// Will add the supplied Coins
-    /// </summary>
-    /// <param name="coinsToAdd">Amount of coins to add</param>
-    public void AddCoins(int coinsToAdd) {
-        coins += coinsToAdd;
     }
 
     /// <summary>

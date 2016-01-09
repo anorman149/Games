@@ -3,8 +3,6 @@
 public class Heart : MonoBehaviour, IItem {
     private int value = 10;
 
-    private Animator animator;
-
     public void AnimateOnPickup() {
         AnimationMethods.setAnimationTypeAndValue(Animation.Collide, GetComponent<Animator>(), true);
     }
