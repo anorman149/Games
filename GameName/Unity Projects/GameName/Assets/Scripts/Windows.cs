@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Windows : Platform {
     public override Vector3 CheckPlayerMovement() {
@@ -16,7 +17,23 @@ public class Windows : Platform {
         return move;
     }
 
-    public override bool CheckPlayerJump() {
+    public override bool CheckHorizontal() {
+        if(Input.GetAxis("Horizontal") != 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public override bool CheckVertical() {
+        if(Input.GetAxis("Vertical") != 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public override bool CheckJump() {
         if(Input.GetKey(KeyCode.Space)) {
             return true;
         }

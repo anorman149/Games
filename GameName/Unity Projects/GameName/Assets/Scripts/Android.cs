@@ -6,7 +6,15 @@ public class Android : Platform {
         throw new NotImplementedException();
     }
 
-    public override bool CheckPlayerJump() {
+    public override bool CheckHorizontal() {
+        throw new NotImplementedException();
+    }
+
+    public override bool CheckVertical() {
+        throw new NotImplementedException();
+    }
+
+    public override bool CheckJump() {
         throw new NotImplementedException();
     }
 }
