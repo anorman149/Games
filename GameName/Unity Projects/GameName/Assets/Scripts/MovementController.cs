@@ -58,13 +58,13 @@ public class MovementController : MonoBehaviour {
     /// <param name="knockBackPower">Power of the KnockBack</param>
     /// <param name="unit">Unit to Knockback</param>
     /// <returns></returns>
-    public static IEnumerator KnockBack(float duration, float knockBackPower, Unit unit) {
+    public static IEnumerator KnockBack(float duration, float knockBackPower, Unit unit, float direction) {
         float timer = 0;
 
         while(duration > timer) {
             timer += Time.deltaTime;
 
-            float moveX = unit.FacingRight ? -knockBackPower : knockBackPower;
+            float moveX = direction < 0 ? -knockBackPower : knockBackPower;
 
             unit.RigidBody.velocity = new Vector2(moveX, 0);
 

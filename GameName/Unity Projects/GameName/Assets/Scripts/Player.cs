@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 
 public class Player : Unit {
-    private float knockBackPower = 6f;
-
     public float WeaponRange;
 
     // Use this for initialization
@@ -72,9 +70,6 @@ public class Player : Unit {
 
         //Play Animation for taking damage
         Animate(Animation.Damage, "");
-
-        //Knock the character back a little
-        StartCoroutine(MovementController.KnockBack(0.02f, knockBackPower, this));
 
         //Need to check and see if we died
         CheckHealth();

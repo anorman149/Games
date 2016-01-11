@@ -9,6 +9,7 @@ public class Enemy : Unit {
     private float maxDistanceToPlayer = 2f;
     private float distanceFromPlayer;
     private float attackWaitTime = 1f;
+    private float knockBackPower = 6f;
 
     protected virtual void Start () {
         Animator = GetComponent<Animator>();
@@ -143,6 +144,13 @@ public class Enemy : Unit {
         //Check to see if we ran into the Player
         if(collision.gameObject.tag.Equals("Player")) {
             DealDamage(collision.gameObject);
+
+            //Distance between the Enemey and the Player
+            Vector3 move = player.transform.position - transform.position;
+            move.Normalize();
+
+            //Knock the Player back a little
+            StartCoroutine(MovementController.KnockBack(0.02f, knockBackPower, player, move.x));
 
             //Stop the enemy from moving for a little
             StartCoroutine(UnitController.WaitForSeconds(attackWaitTime, this));
