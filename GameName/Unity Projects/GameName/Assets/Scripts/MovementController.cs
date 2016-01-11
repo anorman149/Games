@@ -100,4 +100,14 @@ public class MovementController : MonoBehaviour {
     public static void FallFaster(Unit unit) {
         unit.RigidBody.velocity = new Vector2(0, unit.RigidBody.velocity.y - 1);
     }
+
+    /// <summary>
+    /// Will check to see if the Unit runs into another Object
+    /// </summary>
+    /// <param name="position">Position to check</param>
+    /// <param name="radiusToCheck">Radius to check for</param>
+    /// <returns>True if it collides with another object</returns>
+    public static bool OverlapWithAnotherObject(Vector3 position, float radiusToCheck) {
+        return Physics2D.OverlapCircle(position, radiusToCheck);
+    }
 }

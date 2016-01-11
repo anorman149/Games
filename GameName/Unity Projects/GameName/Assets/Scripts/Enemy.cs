@@ -12,7 +12,7 @@ public class Enemy : Unit {
 
     protected virtual void Start () {
         Animator = GetComponent<Animator>();
-        Collider = GetComponent<PolygonCollider2D>();
+        Collider = GetComponent<BoxCollider2D>();
         RigidBody = GetComponent<Rigidbody2D>();
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();

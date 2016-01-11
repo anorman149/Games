@@ -8,7 +8,7 @@ public class Player : Unit {
     // Use this for initialization
     protected virtual void Start () {
         Animator = GetComponent<Animator>();
-        Collider = GetComponent<PolygonCollider2D>();
+        Collider = GetComponent<BoxCollider2D>();
         RigidBody = GetComponent<Rigidbody2D>();
 
         IsGrounded = true;
