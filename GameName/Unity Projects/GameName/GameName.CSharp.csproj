@@ -72,11 +72,15 @@
     <Compile Include="Assets\Scripts\CenteredTextPositioner.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\FinishLevel.cs" />
     <Compile Include="Assets\Scripts\FloatingText.cs" />
     <Compile Include="Assets\Scripts\FromWorldPointTextPositioner.cs" />
+    <Compile Include="Assets\Scripts\GUIUtils.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GameOver.cs" />
     <Compile Include="Assets\Scripts\GoldCoin.cs" />
     <Compile Include="Assets\Scripts\Heart.cs" />
+    <Compile Include="Assets\Scripts\Hero.cs" />
     <Compile Include="Assets\Scripts\IFloatingTextPositioner.cs" />
     <Compile Include="Assets\Scripts\IItem.cs" />
     <Compile Include="Assets\Scripts\LevelManager.cs" />
@@ -86,10 +90,9 @@
     <Compile Include="Assets\Scripts\Platform.cs" />
     <Compile Include="Assets\Scripts\PlatformFactory.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\SoilderPlayer.cs" />
+    <Compile Include="Assets\Scripts\StartScreen.cs" />
     <Compile Include="Assets\Scripts\Unit.cs" />
     <Compile Include="Assets\Scripts\UnitController.cs" />
-    <Compile Include="Assets\Scripts\Utils.cs" />
     <Compile Include="Assets\Scripts\Vampire.cs" />
     <Compile Include="Assets\Scripts\Windows.cs" />
     <Compile Include="Assets\Scripts\Zombie.cs" />
@@ -97,7 +100,6 @@
   <ItemGroup>
     <None Include="Assets\Backgrounds\Fantasy World Game Background\Read me.txt" />
     <None Include="Assets\Backgrounds\bulkhead-walls-files\license.txt" />
-    <None Include="Assets\Sprites\Players\Soldier\Read Me.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

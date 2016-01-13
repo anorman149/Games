@@ -29,7 +29,7 @@ public class Heart : MonoBehaviour, IItem {
             Player player = gameObject.GetComponent<Player>();
 
             //Show the addition
-            FloatingText.Show(string.Format("+{0}", Convert.ToString(value)), Utils.getHeartText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
+            FloatingText.Show(string.Format("+{0}", Convert.ToString(value)), GUIUtils.getHeartText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
 
             //Add the appropriate amount of Health
             player.AddHealth(value);

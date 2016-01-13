@@ -7,5 +7,6 @@
     Fall,
     Damage,
     Ground,
-    Collide
+    Collide,
+    GameOver
 }

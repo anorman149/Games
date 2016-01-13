@@ -25,4 +25,16 @@ public abstract class Platform {
     /// </summary>
     /// <returns>True if so</returns>
     public abstract bool CheckJump();
+
+    /// <summary>
+    /// Will Check to see if the User clicked (Left mouse button or something)
+    /// </summary>
+    /// <returns>True if so</returns>
+    public abstract bool CheckClick();
+
+    /// <summary>
+    /// Will Check to see if the User Touch the screen
+    /// </summary>
+    /// <returns>True if so</returns>
+    public abstract bool CheckTouch();
 }

@@ -52,7 +52,7 @@ public class Enemy : Unit {
     /// </summary>
     public void MoveEnemy() {
         //Only need to move if the distance is within it's max and Player is not Dead
-        if(!player.IsDead() && distanceFromPlayer > maxDistanceToPlayer) {
+        if((!player.IsDead() && player.enabled) && distanceFromPlayer > maxDistanceToPlayer) {
             //Distance between the Enemey and the Player
             Vector3 move = player.transform.position - transform.position;
             move.Normalize();
@@ -100,7 +100,7 @@ public class Enemy : Unit {
         Animate(Animation.Damage, "");
 
         //Need to show Damage Taken Text
-        FloatingText.Show(Convert.ToString(damage), Utils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
+        FloatingText.Show(Convert.ToString(damage), GUIUtils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
 
         //TODO sounds or something here
 

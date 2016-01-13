@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Windows : Platform {
     public override Vector3 CheckPlayerMovement() {
@@ -37,6 +38,15 @@ public class Windows : Platform {
             return true;
         }
 
+        return false;
+    }
+
+    public override bool CheckClick() {
+        return Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
+    }
+
+    public override bool CheckTouch() {
+        //No Touch on Windows
         return false;
     }
 }

@@ -5,16 +5,15 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
-    public int playerCoins;
-    public int playerLives;
+    public int playerCoins = 0;
+    public int playerLives = 3;
+    public Platform platform;
+    public Text coinText;
 
     [HideInInspector]
     public Camera cam;
     [HideInInspector]
     public float maxWidth;
-
-    public Platform platform;
-    public Text coinText;
 
     void Awake () {
 	    if(instance == null) {
@@ -33,9 +32,6 @@ public class GameManager : MonoBehaviour {
             platform = PlatformFactory.GetPlatform();
         }
 
-        playerCoins = 0;
-        playerLives = 3;
-
         //Show the Coins on Screen
         UpdateCoins();
 
@@ -52,11 +48,11 @@ public class GameManager : MonoBehaviour {
     /// Will End the Game
     /// </summary>
     public void GameOver() {
-        //TODO Add things to do before end of Game
+        //Grab the Animator from the Canvas and Trigger the Game Over
+        AnimationMethods.setAnimationTypeAndValue(Animation.GameOver, GameObject.Find("HUDCanvas").GetComponent<Animator>(), "");
 
-        enabled = false;
-
-        //TODO Maybe go back to Start Screen or Continue Screen?
+        //TODO Add Continue??
+        gameObject.AddComponent<GameOver>().gameOver = true;
     }
 
     /// <summary>
@@ -91,5 +87,10 @@ public class GameManager : MonoBehaviour {
 
         //Update the Screen
         UpdateCoins();
+    }
+
+    public void Reset() {
+        playerCoins = 0;
+        playerLives = 3;
     }
 }

@@ -73,7 +73,7 @@ public class Player : Unit {
         Animate(Animation.Damage, "");
 
         //Need to show Damage Taken Text
-        FloatingText.Show(Convert.ToString(damage), Utils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 2f, 50));
+        FloatingText.Show(Convert.ToString(damage), GUIUtils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 2f, 50));
 
         //Need to check and see if we died
         CheckHealth();
@@ -128,7 +128,6 @@ public class Player : Unit {
     private void disable() {
         enabled = false;
         Destroy(this.gameObject);
-        GetComponent<Renderer>().enabled = false;
 
         //The game has ended if no lives
         GameManager.instance.GameOver();
@@ -193,6 +192,7 @@ public class Player : Unit {
     }
 
     public override void OnCollisionEnter2D(Collision2D collision) {
-        
+        //Leave blank for now. Only add if something needs to be done when
+        //Player Collides with something
     }
 }
