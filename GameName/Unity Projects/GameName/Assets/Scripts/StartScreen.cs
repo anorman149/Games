@@ -11,6 +11,9 @@ public class StartScreen : MonoBehaviour {
             return;
         }
 
+        //Need to Rest GameManager
+        GameManager.instance.Reset();
+
         //Will Load the First Level
         SceneManager.LoadScene("Level1");
 	}
