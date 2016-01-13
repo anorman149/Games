@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Heart : MonoBehaviour, IItem {
     private int value = 10;
@@ -26,6 +27,9 @@ public class Heart : MonoBehaviour, IItem {
         if(gameObject.tag.Equals("Player")) {
             //The Player has collided
             Player player = gameObject.GetComponent<Player>();
+
+            //Show the addition
+            FloatingText.Show(string.Format("+{0}", Convert.ToString(value)), Utils.getHeartText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
 
             //Add the appropriate amount of Health
             player.AddHealth(value);

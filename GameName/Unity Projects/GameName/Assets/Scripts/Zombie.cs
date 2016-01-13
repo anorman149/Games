@@ -1,11 +1,11 @@
-﻿public class VampireEnemy : Enemy {
+﻿public class Zombie : Enemy {
     protected override void Start() {
-        MaxHealth = 150;
+        MaxHealth = 100;
         CurrentHealth = MaxHealth;
-        Damage = 20;
+        Damage = 10;
         Speed = 3f;
         JumpVelocity = 60;
-        coinsToTakeAway = 20;
+        coinsToTakeAway = 10;
 
         base.Start();
     }

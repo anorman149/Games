@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Enemy : Unit {
 
@@ -98,13 +99,18 @@ public class Enemy : Unit {
         //Play Animation for taking damage
         Animate(Animation.Damage, "");
 
+        //Need to show Damage Taken Text
+        FloatingText.Show(Convert.ToString(damage), Utils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
+
         //TODO sounds or something here
 
         //Need to check and see if the Enemy died
         CheckHealth();
     }
 
-    //Need to check if the Enemy has died
+    /// <summary>
+    /// Check if the Enemy has died
+    /// </summary>
     public override void CheckHealth() {
         if (CurrentHealth <= 0) {
             Death();

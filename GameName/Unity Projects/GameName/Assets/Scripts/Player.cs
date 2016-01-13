@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Player : Unit {
     public float WeaponRange;
@@ -70,6 +71,9 @@ public class Player : Unit {
 
         //Play Animation for taking damage
         Animate(Animation.Damage, "");
+
+        //Need to show Damage Taken Text
+        FloatingText.Show(Convert.ToString(damage), Utils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 2f, 50));
 
         //Need to check and see if we died
         CheckHealth();
