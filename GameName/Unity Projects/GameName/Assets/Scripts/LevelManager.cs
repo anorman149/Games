@@ -7,20 +7,16 @@ public class LevelManager : MonoBehaviour {
     public static LevelManager instance = null;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
+        //So the Application doesn't destroy this Object
+        DontDestroyOnLoad(gameObject);
+
         if (instance == null) {
             instance = this;
-        } else if (instance != null) {
+        } else if(instance != this) {
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(gameObject);
     }
-
-    // Update is called once per frame
-    void Update () {
-	
-	}
 
     public void GoToNextLevel(string levelName) {
         StartCoroutine(GoToNextLevelCo(levelName));

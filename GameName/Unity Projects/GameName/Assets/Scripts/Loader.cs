@@ -4,15 +4,20 @@ public class Loader : MonoBehaviour {
 
     public GameObject gameManager;
     public GameObject levelManager;
+    public GameObject guiManager;
 
 	// Use this for initialization
 	void Awake () {
-        if (GameManager.instance == null) {
+        if (gameManager != null && GameManager.instance == null) {
             Instantiate(gameManager);
         }
 
-        if(LevelManager.instance == null) {
+        if(levelManager != null && LevelManager.instance == null) {
             Instantiate(levelManager);
+        }
+
+        if(guiManager != null && GUIManager.instance == null) {
+            Instantiate(guiManager);
         }
 	}
 }

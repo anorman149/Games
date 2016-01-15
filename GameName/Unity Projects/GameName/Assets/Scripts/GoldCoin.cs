@@ -31,7 +31,7 @@ public class GoldCoin : MonoBehaviour, IItem {
             FloatingText.Show(string.Format("+{0}", Convert.ToString(value)), GUIUtils.getCoinText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
 
             //Add the appropriate amount of coins
-            GameManager.instance.AddCoins(value);
+            GUIManager.instance.AddCoins(value);
 
             //Animate
             AnimateOnPickup();

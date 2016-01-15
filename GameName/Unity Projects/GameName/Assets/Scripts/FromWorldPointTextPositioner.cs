@@ -21,7 +21,7 @@ public class FromWorldPointTextPositioner : IFloatingTextPositioner {
         }
 
         //Grab the world position for the Object
-        Vector3 worldPosition = GameManager.instance.cam.WorldToScreenPoint(_worldPosition);
+        Vector3 worldPosition = Camera.main.WorldToScreenPoint(_worldPosition);
 
         //Alter the x and y for the Object
         position.x = worldPosition.x - (size.x / 2);
