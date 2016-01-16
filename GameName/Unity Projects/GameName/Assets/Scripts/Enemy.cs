@@ -32,7 +32,7 @@ public class Enemy : Unit {
         }
 
         //Need to account for Spawning
-        spawning = Animator.GetCurrentAnimatorStateInfo(0).IsName("Appear") && !Animator.IsInTransition(0);
+        spawning = Animator.GetCurrentAnimatorStateInfo(0).IsName(Animation.Appear.ToString()) && !Animator.IsInTransition(0);
         if(spawning) {
             return;
         }
@@ -108,7 +108,7 @@ public class Enemy : Unit {
         Animate(Animation.Damage, "");
 
         //Need to show Damage Taken Text
-        FloatingText.Show(Convert.ToString(damage), GUIUtils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
+        FloatingText.Show(string.Format("-{0}", Convert.ToString(damage)), GUIUtils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
 
         //TODO sounds or something here
 

@@ -8,5 +8,6 @@
     Damage,
     Ground,
     Collide,
-    GameOver
+    GameOver,
+    Appear
 }

@@ -81,7 +81,7 @@ public class Player : Unit {
         Animate(Animation.Damage, "");
 
         //Need to show Damage Taken Text
-        FloatingText.Show(Convert.ToString(damage), GUIUtils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 2f, 50));
+        FloatingText.Show(string.Format("-{0}", Convert.ToString(damage)), GUIUtils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 2f, 50));
 
         //Need to check and see if we died
         CheckHealth();
