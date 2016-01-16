@@ -23,6 +23,22 @@ public class GUIManager : MonoBehaviour {
         UpdateCoins();
     }
 
+    void Update() {
+        //Will need to check if the Coin Text is null
+        if(coinText == null) {
+            GameObject ifExists = GameObject.Find("CoinText");
+
+            //Check to see if the Coin Text exists on the Level
+            if(ifExists != null) {
+                //if so, grab the Coin Text
+                coinText = ifExists.GetComponent<Text>();
+            }
+            
+            //Update the Screen with the Coins
+            UpdateCoins();
+        }
+    }
+
     /// <summary>
     /// Will update the coins on the screen
     /// </summary>

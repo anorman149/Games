@@ -23,6 +23,14 @@ public class Enemy : Unit {
     public override void FixedUpdate() {
         base.FixedUpdate();
 
+        //Let's try resetting the Player (will be here for when the Player Dies)
+        if(player == null) {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if(playerObject != null) {
+                player = playerObject.GetComponent<Player>();
+            }
+        }
+
         //Need to account for Spawning
         spawning = Animator.GetCurrentAnimatorStateInfo(0).IsName("Appear") && !Animator.IsInTransition(0);
         if(spawning) {
@@ -44,13 +52,13 @@ public class Enemy : Unit {
             distanceFromPlayer = MovementController.CheckDistanceFromUnit(this, player);
         }
 
-        MoveEnemy();
+        Move();
     }
 
     /// <summary>
     /// Will control the enemies
     /// </summary>
-    public void MoveEnemy() {
+    public void Move() {
         //Only need to move if the distance is within it's max and Player is not Dead
         if((!player.IsDead() && player.enabled) && distanceFromPlayer > maxDistanceToPlayer) {
             //Distance between the Enemey and the Player

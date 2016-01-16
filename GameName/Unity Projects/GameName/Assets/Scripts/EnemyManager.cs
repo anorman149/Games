@@ -9,13 +9,21 @@ public class EnemyManager : MonoBehaviour {
 
 
     void Start() {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-
         // Call the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
         InvokeRepeating("Spawn", 0, spawnTime);
     }
 
     void Spawn() {
+        //Let's just return out if the Game is Over
+        if(GameManager.instance.gameOver) {
+            return;
+        }
+
+        //Check just in-case the Object changed (Player Died)
+        if(player == null) {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        }
+
         // Find a random index between zero and one less than the number of spawn points.
         int spawnPointIndex = Random.Range(0, spawnPoints.Length);
 

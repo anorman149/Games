@@ -22,9 +22,17 @@ public class Player : Unit {
             return;
         }
 
-        //Check to see if the Unit is Dead
-        if(Dead) {
+        //Check to see if it's Game Over
+        if(GameManager.instance.playerLives <= 0) {
             disable();
+        }
+
+        if(Dead && GameManager.instance.playerLives > 0) {
+            //Will need to Respawn
+            PlayerRespawn.Instantiate();
+
+            //Destroy the current Player
+            Destroy(gameObject);
         }
 
         //TODO Add audio or something here
@@ -80,13 +88,12 @@ public class Player : Unit {
     }
 
     /// <summary>
-    /// Will subtract a Life and start back at MaxHealth. 
-    /// If there are no Lives left, Death is called.
+    /// Will subtract a Life, call Death, and start back at MaxHealth. 
     /// </summary>
     public void SubtractLife() {
-        if(GameManager.instance.playerLives <= 0) {
-            Death();
-        } else {
+        Death();
+
+        if(GameManager.instance.playerLives > 0) {
             GameManager.instance.playerLives -= 1;
             CurrentHealth = MaxHealth;
         }
@@ -117,7 +124,7 @@ public class Player : Unit {
         MovementController.StopMovement(this);
 
         //Wait until the Animation has finished
-        StartCoroutine(UnitController.WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length + .5f, this));
+        StartCoroutine(UnitController.WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length + .6f, this));
 
         //TODO Add sound
     }
@@ -155,8 +162,11 @@ public class Player : Unit {
         if(gameObject.tag.Equals("Enemy") && MovementController.CheckDistanceFromUnit(this, gameObject.GetComponent<Enemy>()) <= WeaponRange) {
             Enemy enemy = gameObject.GetComponent<Enemy>();
 
+            //Let's check current animation, if the Player is already attacking, we don't want to again
+            bool attacking = Animator.GetCurrentAnimatorStateInfo(0).IsName(Animation.Attack.ToString()) && !Animator.IsInTransition(0);
+
             //If not Dead AND the Player is facing the same direction, then do some damage
-            if(!enemy.IsDead() && UnitController.UnitsFacingEachOther(this, enemy)) {
+            if(!enemy.IsDead() && UnitController.UnitsFacingEachOther(this, enemy) && !attacking) {
                 //Play Animation for taking damage
                 Animate(Animation.Attack, "");
 

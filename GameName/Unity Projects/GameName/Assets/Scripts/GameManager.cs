@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 
     [HideInInspector]
     public float maxWidth;
+    [HideInInspector]
+    public bool gameOver = false;
 
     void Awake () {
         //So the Application doesn't destroy this Object
@@ -41,7 +43,8 @@ public class GameManager : MonoBehaviour {
         AnimationMethods.setAnimationTypeAndValue(Animation.GameOver, GameObject.Find("HUDCanvas").GetComponent<Animator>(), "");
 
         //TODO Add Continue??
-        gameObject.AddComponent<GameOver>().gameOver = true;
+        gameOver = true;
+        gameObject.AddComponent<GameOver>();
     }
 
     /// <summary>
@@ -50,5 +53,6 @@ public class GameManager : MonoBehaviour {
     public void Reset() {
         playerCoins = 0;
         playerLives = 3;
+        gameOver = false;
     }
 }
