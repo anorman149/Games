@@ -25,4 +25,8 @@ public class Android : Platform {
     public override bool CheckTouch() {
         throw new NotImplementedException();
     }
+
+    public override bool CheckDown() {
+        throw new NotImplementedException();
+    }
 }

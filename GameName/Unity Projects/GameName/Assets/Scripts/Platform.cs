@@ -37,4 +37,10 @@ public abstract class Platform {
     /// </summary>
     /// <returns>True if so</returns>
     public abstract bool CheckTouch();
+
+    /// <summary>
+    /// Will check to see if the User input was for DOWN
+    /// </summary>
+    /// <returns>True if so</returns>
+    public abstract bool CheckDown();
 }
