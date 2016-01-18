@@ -79,6 +79,9 @@ public class Player : Unit {
         //Play Animation for taking damage
         Animate(Animation.Damage, "");
 
+        //Start the blinking and invulnerability
+        StartCoroutine(blink(.15f, .2f, true));
+
         //Need to show Damage Taken Text
         FloatingText.Show(string.Format("-{0}", Convert.ToString(damage)), GUIUtils.damageStyle, new FromWorldPointTextPositioner(transform.position, 2f, 50));
 

@@ -37,8 +37,11 @@ public class Bullet : MonoBehaviour {
         if(collision.gameObject.tag.Equals("Enemy")) {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 
-            //The enemy needs to take Damage
-            enemy.ReceiveDamage(damage);
+            //Make sure the enemy isn't invulnerable first
+            if(!enemy.invulnerable) {
+                //The enemy needs to take Damage
+                enemy.ReceiveDamage(damage);
+            }
 
             //Now that it hit something, destroy the bullet
             Destroy(gameObject);

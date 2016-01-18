@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class Unit : MonoBehaviour {
@@ -14,6 +15,7 @@ public abstract class Unit : MonoBehaviour {
     public bool FacingRight;
     public bool Dead = false;
     public bool wait = false;
+    public bool invulnerable = false;
 
     public LayerMask TheGround;
     public Transform GroundCheck;
@@ -72,5 +74,32 @@ public abstract class Unit : MonoBehaviour {
     /// </summary>
     public virtual void OnCollisionEnter2D(Collision2D collision) {
         //Leaving empty for subclasses to override
+    }
+
+    /// <summary>
+    /// Allow the Unit to blink for a duration
+    /// </summary>
+    /// <param name="duration">Duration fo blinking</param>
+    /// <param name="blinkTime">How often the blink occures</param>
+    /// <param name="invulnerableForDuration">Whether the Unit should be invulnerable during this time</param>
+    /// <returns></returns>
+    protected IEnumerator blink(float duration, float blinkTime, bool invulnerableForDuration) {
+        if(invulnerableForDuration) {
+           invulnerable = true;
+        }
+
+        while(duration > 0f) {
+            duration -= Time.deltaTime;
+
+            //toggle renderer
+            GetComponent<Renderer>().enabled = !GetComponent<Renderer>().enabled;
+
+            //wait for a bit
+            yield return new WaitForSeconds(blinkTime);
+        }
+
+        //make sure renderer is enabled and invulnerable is not when we exit
+        GetComponent<Renderer>().enabled = true;
+        invulnerable = false;
     }
 }

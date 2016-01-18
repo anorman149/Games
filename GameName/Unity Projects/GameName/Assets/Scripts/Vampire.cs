@@ -22,7 +22,7 @@ public class Vampire : Enemy {
             Player player = collision.gameObject.GetComponent<Player>();
 
             //We should probably only do damage if the Player is NOT Dead
-            if(!player.IsDead()) {
+            if(!player.IsDead() && !player.invulnerable) {
                 //Play Animation for taking damage
                 Animate(Animation.Attack, "");
 
