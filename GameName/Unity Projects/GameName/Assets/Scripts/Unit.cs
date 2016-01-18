@@ -6,6 +6,7 @@ public abstract class Unit : MonoBehaviour {
 
     public float CurrentHealth;
     public float Damage;
+    public float AttackRange;
     public float Speed;
     public float JumpVelocity;
     public float AttackSpeed;

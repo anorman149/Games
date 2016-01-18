@@ -2,9 +2,7 @@
 using UnityEngine;
 
 public class Player : Unit {
-    public float WeaponRange;
 
-    // Use this for initialization
     protected virtual void Start () {
         Animator = GetComponent<Animator>();
         Collider = GetComponent<BoxCollider2D>();
@@ -34,8 +32,6 @@ public class Player : Unit {
             //Destroy the current Player
             Destroy(gameObject);
         }
-
-        //TODO Add audio or something here
 
         //Check if Unit moved
         Move();
@@ -144,9 +140,7 @@ public class Player : Unit {
     }
 
     /// <summary>
-    /// Check whether the Player has Died
-    /// If the Player has no more lives, it will end the game
-    /// If another life exists, it will use it
+    /// Check if Health has dropped to 0 or below
     /// </summary>
     public override void CheckHealth() {
         if (CurrentHealth <= 0) {

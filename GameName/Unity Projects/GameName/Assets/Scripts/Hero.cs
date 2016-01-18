@@ -9,7 +9,7 @@ public class Hero : Player {
         Damage = 50;
         Speed = 4;
         JumpVelocity = 90;
-        WeaponRange = 8f;
+        AttackRange = 8f;
 
         base.Start();
     }
@@ -21,14 +21,17 @@ public class Hero : Player {
         //If the Player Attacked AND they are not currently attacking, do some damage
         if(GameManager.instance.platform.CheckAttack() && !attacking) {
             //Bullet Spawn position
-            Transform bulletSpawn = GameObject.Find("BulletSpawn").transform;
+            Vector3 bulletSpawn = GameObject.Find("BulletSpawn").transform.position;
 
             Animate(Animation.Attack, "");
 
             //Instantiate the Bullet
-            Bullet bullet = Instantiate(Resources.Load("Prefabs/items/Bullet", typeof(Bullet)), bulletSpawn.position, Quaternion.identity) as Bullet;
+            Bullet bullet = Instantiate(Resources.Load("Prefabs/items/Bullet", typeof(Bullet)), bulletSpawn, Quaternion.identity) as Bullet;
             bullet.SetDamage(Damage);
             bullet.SetBulletSpeed(bulletSpeed);
+            bullet.SetUnitWhoShot(this);
+            bullet.SetSpawnLocation(bulletSpawn);
+            bullet.SetBulletRange(AttackRange);
         }
     }
 }
