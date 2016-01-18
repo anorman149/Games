@@ -6,11 +6,11 @@ public class Enemy : Unit {
     private Player player;
 
     protected int coinsToTakeAway;
-    private bool spawning;
-    private float maxDistanceToPlayer = 2f;
-    private float distanceFromPlayer;
-    private float attackWaitTime = 1f;
-    private float knockBackPower = 6f;
+    protected bool spawning;
+    protected float maxDistanceToPlayer;
+    protected float distanceFromPlayer;
+    protected float attackWaitTime;
+    protected float knockBackPower;
 
     protected virtual void Start () {
         Animator = GetComponent<Animator>();
@@ -52,7 +52,11 @@ public class Enemy : Unit {
             distanceFromPlayer = MovementController.CheckDistanceFromUnit(this, player);
         }
 
+        //Check if Unit moved
         Move();
+
+        //Check if Unit Attacked
+        Attack();
     }
 
     /// <summary>
@@ -75,40 +79,17 @@ public class Enemy : Unit {
     }
 
     /// <summary>
-    /// Unit to Attack
-    /// </summary>
-    /// <param name="obj">Which Object the Unit will do damage to</param>
-    public override void DealDamage(GameObject gameObject) {
-        //Check to see if the Object is a Player
-        if (gameObject.tag.Equals("Player")) {
-            Player player = gameObject.GetComponent<Player>();
-
-            //We should probably only do damage if the Player is NOT Dead
-            if(!player.IsDead()) {
-                //Play Animation for taking damage
-                Animate(Animation.Attack, "");
-
-                //Let's do some damage and take away coins
-                player.TakeDamage(Damage);
-
-                //Subtract the necessary amount of coins
-                GUIManager.instance.SubtractCoins(coinsToTakeAway);
-            }
-        }
-    }
-
-    /// <summary>
     /// Damage the Enemy
     /// </summary>
     /// <param name="damage">Amount of Damage to Enemy</param>
-    public override void TakeDamage(int damage) {
+    public override void ReceiveDamage(float damage) {
         CurrentHealth -= damage;
 
         //Play Animation for taking damage
         Animate(Animation.Damage, "");
 
         //Need to show Damage Taken Text
-        FloatingText.Show(string.Format("-{0}", Convert.ToString(damage)), GUIUtils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
+        FloatingText.Show(string.Format("-{0}", Convert.ToString(damage)), GUIUtils.damageStyle, new FromWorldPointTextPositioner(transform.position, 1f, 50));
 
         //TODO sounds or something here
 
@@ -132,6 +113,7 @@ public class Enemy : Unit {
         //Play death animation
         Dead = true;
         Animate(Animation.Dead, Dead);
+        Collider.enabled = false;
 
         //Stop the Movement
         MovementController.StopMovement(this);
@@ -152,35 +134,5 @@ public class Enemy : Unit {
 
     public override void OnTriggerEnter2D(Collider2D collider) {
         //TODO add collision to things
-    }
-
-    public override void OnCollisionEnter2D(Collision2D collision) {
-        //Check to see if we ran into the Player
-        if(collision.gameObject.tag.Equals("Player")) {
-            DealDamage(collision.gameObject);
-
-            //Distance between the Enemey and the Player
-            Vector3 move = player.transform.position - transform.position;
-            move.Normalize();
-
-            //Knock the Player back a little
-            StartCoroutine(MovementController.KnockBack(0.02f, knockBackPower, player, move.x));
-
-            //Stop the enemy from moving for a little
-            StartCoroutine(UnitController.WaitForSeconds(attackWaitTime, this));
-        }
-    }
-
-    /// <summary>
-    /// Will detect if the Player has Clicked this Object
-    /// 
-    /// CAUTION - Only works with PC
-    /// </summary>
-    public void OnMouseOver() {
-        if(Input.GetMouseButtonDown(1)) {
-            //This means the Player has Right Clicked the Enemey
-            //Let's do some damage
-            player.DealDamage(this.gameObject);
-        }
     }
 }

@@ -3,46 +3,47 @@
 public class GUIUtils : MonoBehaviour {
 
     public static Font font;
+    public static GUIStyle damageStyle = new GUIStyle();
+    public static GUIStyle heartStyle = new GUIStyle();
+    public static GUIStyle coinStyle = new GUIStyle();
+    public static GUIStyle endLevelStyle = new GUIStyle();
 
     static GUIUtils() {
         font = Resources.Load("Fonts/Younger than me", typeof(Font)) as Font;
+
+        damageStyle = initDamageText();
+        heartStyle = initHeartText();
+        coinStyle = initCoinText();
+        endLevelStyle = initEndLevelText();
     }
 
-    public static GUIStyle getDamageText() {
-        GUIStyle style = new GUIStyle();
+    private static GUIStyle initDamageText() {
+        damageStyle.normal.textColor = Color.red;
+        damageStyle.fontSize = 18;
+        damageStyle.font = font;
 
-        style.normal.textColor = Color.red;
-        style.fontSize = 18;
-        style.font = font;
-
-        return style;
+        return damageStyle;
     }
 
-    public static GUIStyle getHeartText() {
-        GUIStyle style = new GUIStyle();
+    private static GUIStyle initHeartText() {
+        heartStyle.normal.textColor = new Color(.32f, .77f, .32f); //Green Color
+        heartStyle.font = font;
 
-        style.normal.textColor = new Color(.32f, .77f, .32f); //Green Color
-        style.font = font;
-
-        return style;
+        return heartStyle;
     }
 
-    public static GUIStyle getCoinText() {
-        GUIStyle style = new GUIStyle();
+    private static GUIStyle initCoinText() {
+        coinStyle.normal.textColor = Color.yellow;
+        coinStyle.font = font;
 
-        style.normal.textColor = Color.yellow;
-        style.font = font;
-
-        return style;
+        return coinStyle;
     }
 
-    public static GUIStyle getEndLevelText() {
-        GUIStyle style = new GUIStyle();
+    private static GUIStyle initEndLevelText() {
+        endLevelStyle.normal.textColor = Color.white;
+        endLevelStyle.fontSize = 26;
+        endLevelStyle.font = font;
 
-        style.normal.textColor = Color.white;
-        style.fontSize = 26;
-        style.font = font;
-
-        return style;
+        return endLevelStyle;
     }
 }

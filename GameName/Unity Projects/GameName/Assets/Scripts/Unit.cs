@@ -1,15 +1,14 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Unit : MonoBehaviour {
     [HideInInspector]
     public int MaxHealth;
 
-    public int CurrentHealth;
-    public int Damage;
+    public float CurrentHealth;
+    public float Damage;
     public float Speed;
     public float JumpVelocity;
+    public float AttackSpeed;
     public bool IsGrounded;
     public bool FacingRight;
     public bool Dead = false;
@@ -26,12 +25,10 @@ public abstract class Unit : MonoBehaviour {
     [HideInInspector]
     public Rigidbody2D RigidBody;
 
-    public abstract void DealDamage(GameObject gameObject);
     public abstract void CheckHealth();
     public abstract void Death();
-    public abstract void TakeDamage(int damage);
+    public abstract void ReceiveDamage(float damage);
     public abstract void OnTriggerEnter2D(Collider2D collider);
-    public abstract void OnCollisionEnter2D(Collision2D collision);
 
     /// <summary>
     /// Will Animate the Unit with the supplied values
@@ -45,7 +42,7 @@ public abstract class Unit : MonoBehaviour {
     /// <summary>
     /// Check to see if the Dead Animation has been triggered or not (dead or not)
     /// </summary>
-    /// <returns></returns>
+    /// <returns>True if the Unit is marked as Dead</returns>
     public virtual bool IsDead() {
         return Dead;
     }
@@ -58,5 +55,21 @@ public abstract class Unit : MonoBehaviour {
 
         //Check whether we are on the ground or not
         UnitController.UnitOnGround(this);
+    }
+
+    /// <summary>
+    /// Will be the Attack method that the subclasses will override. 
+    /// Each Unit will have their own Attack method
+    /// </summary>
+    public virtual void Attack() {
+        //Leaving empty for subclasses to override
+    }
+
+    /// <summary>
+    /// Will be the OnCollision Method that the subclasses will override
+    /// Each Unit will have their own Collision Method
+    /// </summary>
+    public virtual void OnCollisionEnter2D(Collision2D collision) {
+        //Leaving empty for subclasses to override
     }
 }

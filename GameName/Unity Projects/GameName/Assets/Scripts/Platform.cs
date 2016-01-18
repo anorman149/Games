@@ -43,4 +43,10 @@ public abstract class Platform {
     /// </summary>
     /// <returns>True if so</returns>
     public abstract bool CheckDown();
+
+    /// <summary>
+    /// Will check to see if the User attacked
+    /// </summary>
+    /// <returns>True if so</returns>
+    public abstract bool CheckAttack();
 }

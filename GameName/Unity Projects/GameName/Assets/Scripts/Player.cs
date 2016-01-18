@@ -37,11 +37,14 @@ public class Player : Unit {
 
         //TODO Add audio or something here
 
-        //Check if Player moved
+        //Check if Unit moved
         Move();
+
+        //Check if Unit Attacked
+        Attack();
     }
 
-    void Update() {
+    public virtual void Update() {
         //See if we are jumping
         if (GameManager.instance.platform.CheckJump() && IsGrounded) {
             //Set the animation
@@ -74,14 +77,14 @@ public class Player : Unit {
     /// Damage the Player
     /// </summary>
     /// <param name="damage">Amount of Damage to Player</param>
-    public override void TakeDamage(int damage) {
+    public override void ReceiveDamage(float damage) {
         CurrentHealth -= damage;
 
         //Play Animation for taking damage
         Animate(Animation.Damage, "");
 
         //Need to show Damage Taken Text
-        FloatingText.Show(string.Format("-{0}", Convert.ToString(damage)), GUIUtils.getDamageText(), new FromWorldPointTextPositioner(transform.position, 2f, 50));
+        FloatingText.Show(string.Format("-{0}", Convert.ToString(damage)), GUIUtils.damageStyle, new FromWorldPointTextPositioner(transform.position, 2f, 50));
 
         //Need to check and see if we died
         CheckHealth();
@@ -153,28 +156,6 @@ public class Player : Unit {
         }
     }
 
-    /// <summary>
-    /// Unit to Attack
-    /// </summary>
-    /// <param name="obj">Which Object the Unit will do damage to</param>
-    public override void DealDamage(GameObject gameObject) {
-        //Check to see if the Object is an Enemy AND if the Enemy is in Range of the Player's weapon
-        if(gameObject.tag.Equals("Enemy") && MovementController.CheckDistanceFromUnit(this, gameObject.GetComponent<Enemy>()) <= WeaponRange) {
-            Enemy enemy = gameObject.GetComponent<Enemy>();
-
-            //Let's check current animation, if the Player is already attacking, we don't want to again
-            bool attacking = Animator.GetCurrentAnimatorStateInfo(0).IsName(Animation.Attack.ToString()) && !Animator.IsInTransition(0);
-
-            //If not Dead AND the Player is facing the same direction, then do some damage
-            if(!enemy.IsDead() && UnitController.UnitsFacingEachOther(this, enemy) && !attacking) {
-                //Play Animation for taking damage
-                Animate(Animation.Attack, "");
-
-                enemy.TakeDamage(Damage);
-            }
-        }
-    }
-
     public override void OnTriggerEnter2D(Collider2D collider) {
         GameObject colliderGameObject = collider.gameObject;
 
@@ -199,10 +180,5 @@ public class Player : Unit {
         enabled = false;
 
         //TODO add more code for finishing level
-    }
-
-    public override void OnCollisionEnter2D(Collision2D collision) {
-        //Leave blank for now. Only add if something needs to be done when
-        //Player Collides with something
     }
 }

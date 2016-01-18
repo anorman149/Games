@@ -29,4 +29,8 @@ public class Apple : Platform {
     public override bool CheckDown() {
         throw new NotImplementedException();
     }
+
+    public override bool CheckAttack() {
+        throw new NotImplementedException();
+    }
 }

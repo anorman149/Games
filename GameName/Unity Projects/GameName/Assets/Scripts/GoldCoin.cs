@@ -28,10 +28,10 @@ public class GoldCoin : MonoBehaviour, IItem {
             //The Player has collided
 
             //Show the addition
-            FloatingText.Show(string.Format("+{0}", Convert.ToString(value)), GUIUtils.getCoinText(), new FromWorldPointTextPositioner(transform.position, 1f, 50));
+            FloatingText.Show(string.Format("+{0}", Convert.ToString(value)), GUIUtils.coinStyle, new FromWorldPointTextPositioner(transform.position, 1f, 50));
 
             //Add the appropriate amount of coins
-            GUIManager.instance.AddCoins(value);
+            GameManager.instance.AddCoins(value);
 
             //Animate
             AnimateOnPickup();

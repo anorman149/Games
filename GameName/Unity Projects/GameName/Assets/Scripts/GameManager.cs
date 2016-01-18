@@ -48,6 +48,33 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Will subtract coins
+    /// </summary>
+    /// <param name="coinsLost">Amount of coins to lose</param>
+    public void SubtractCoins(int coinsLost) {
+        playerCoins -= coinsLost;
+
+        //If coins are now below 0, let's set to 0
+        if(playerCoins < 0) {
+            playerCoins = 0;
+        }
+
+        //Update the Screen
+        GUIManager.instance.UpdateCoins();
+    }
+
+    /// <summary>
+    /// Will add the supplied Coins
+    /// </summary>
+    /// <param name="coinsToAdd">Amount of coins to add</param>
+    public void AddCoins(int coinsToAdd) {
+        playerCoins += coinsToAdd;
+
+        //Update the Screen
+        GUIManager.instance.UpdateCoins();
+    }
+
+    /// <summary>
     /// Will Reset Player's Lives and Player's Coins
     /// </summary>
     public void Reset() {

@@ -52,4 +52,8 @@ public class Windows : Platform {
     public override bool CheckDown() {
         return Input.GetAxis("Vertical") < 0;
     }
+
+    public override bool CheckAttack() {
+        return Input.GetMouseButtonDown(0);
+    }
 }
