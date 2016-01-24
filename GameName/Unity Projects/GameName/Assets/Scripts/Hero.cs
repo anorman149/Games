@@ -16,7 +16,7 @@ public class Hero : Player {
 
     public override void Attack() {
         //Let's check current animation, if the Player is already attacking, we don't want to again
-        bool attacking = Animator.GetCurrentAnimatorStateInfo(0).IsName(Animation.Attack.ToString()) && !Animator.IsInTransition(0);
+        bool attacking = CheckCurrentAnimationPlaying(Animation.Attack);
 
         //If the Player Attacked AND they are not currently attacking, do some damage
         if(GameManager.instance.platform.CheckAttack() && !attacking) {

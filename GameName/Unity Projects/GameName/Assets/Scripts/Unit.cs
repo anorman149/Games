@@ -16,6 +16,7 @@ public abstract class Unit : MonoBehaviour {
     public bool Dead = false;
     public bool wait = false;
     public bool invulnerable = false;
+    protected float knockBackPower;
 
     public LayerMask TheGround;
     public Transform GroundCheck;
@@ -101,5 +102,14 @@ public abstract class Unit : MonoBehaviour {
         //make sure renderer is enabled and invulnerable is not when we exit
         GetComponent<Renderer>().enabled = true;
         invulnerable = false;
+    }
+
+    /// <summary>
+    /// Will check to see if the Unit is in the desired animation
+    /// </summary>
+    /// <param name="animation">The animation to check if Playing</param>
+    /// <returns>True if the Animation is playing</returns>
+    public bool CheckCurrentAnimationPlaying(Animation animation) {
+        return Animator.GetCurrentAnimatorStateInfo(0).IsName(animation.ToString()) && !Animator.IsInTransition(0);
     }
 }

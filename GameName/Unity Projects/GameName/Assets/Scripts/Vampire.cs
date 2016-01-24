@@ -21,8 +21,11 @@ public class Vampire : Enemy {
         if(collision.gameObject.tag.Equals("Player")) {
             Player player = collision.gameObject.GetComponent<Player>();
 
+            //Let's check current animation, if the enemy is hurt, they shouldn't attack again
+            bool hurt = CheckCurrentAnimationPlaying(Animation.Damage);
+
             //We should probably only do damage if the Player is NOT Dead
-            if(!player.IsDead() && !player.invulnerable) {
+            if(!player.IsDead() && !player.invulnerable && !hurt) {
                 //Play Animation for taking damage
                 Animate(Animation.Attack, "");
 
@@ -32,7 +35,7 @@ public class Vampire : Enemy {
                 //Subtract the necessary amount of coins
                 GameManager.instance.SubtractCoins(coinsToTakeAway);
 
-                //Distance between the Enemey and the Player
+                //Distance between the Enemy and the Player
                 Vector3 move = player.transform.position - transform.position;
                 move.Normalize();
 

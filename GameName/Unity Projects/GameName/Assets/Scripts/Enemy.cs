@@ -10,7 +10,6 @@ public class Enemy : Unit {
     protected float maxDistanceToPlayer;
     protected float distanceFromPlayer;
     protected float attackWaitTime;
-    protected float knockBackPower;
 
     protected virtual void Start () {
         Animator = GetComponent<Animator>();
@@ -32,7 +31,7 @@ public class Enemy : Unit {
         }
 
         //Need to account for Spawning
-        spawning = Animator.GetCurrentAnimatorStateInfo(0).IsName(Animation.Appear.ToString()) && !Animator.IsInTransition(0);
+        spawning = CheckCurrentAnimationPlaying(Animation.Appear);
         if(spawning) {
             return;
         }
@@ -63,8 +62,11 @@ public class Enemy : Unit {
     /// Will control the enemies
     /// </summary>
     public void Move() {
+        //Let's check current animation, if the Enemy is hurt, let's not move
+        bool hurt = CheckCurrentAnimationPlaying(Animation.Damage);
+
         //Only need to move if the distance is within it's max and Player is not Dead
-        if((!player.IsDead() && player.enabled) && distanceFromPlayer > maxDistanceToPlayer) {
+        if(!player.IsDead() && !hurt && distanceFromPlayer > maxDistanceToPlayer) {
             //Distance between the Enemey and the Player
             Vector3 move = player.transform.position - transform.position;
             move.Normalize();

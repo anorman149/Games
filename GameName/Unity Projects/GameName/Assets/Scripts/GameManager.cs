@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
     public int playerCoins = 0;
     public int playerLives = 3;
     public Platform platform;
+    public Player WhichPlayerChosen;
 
     [HideInInspector]
     public float maxWidth;
@@ -33,6 +34,17 @@ public class GameManager : MonoBehaviour {
         Vector3 uppercorner = new Vector3(Screen.width, Screen.height, 0.0f);
         Vector3 targetWidth = Camera.main.ScreenToWorldPoint(uppercorner);
         maxWidth = targetWidth.x;
+    }
+
+    void Update() {
+        //If the Player doens't exist, go grab it
+        if(WhichPlayerChosen == null) {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+            if(playerObject != null) {
+                WhichPlayerChosen = playerObject.GetComponent<Player>();
+            }
+        }
     }
 
     /// <summary>

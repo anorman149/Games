@@ -8,7 +8,7 @@ public class PlayerRespawn : MonoBehaviour {
         Transform spawnPoint = GameObject.Find("PlayerSpawnPoint").transform;
 
         //Grab the Player Prefab
-        Player player = Resources.Load("Prefabs/units/Player", typeof(Player)) as Player;
+        Player player = Resources.Load("Prefabs/units/" + GameManager.instance.WhichPlayerChosen.name, typeof(Player)) as Player;
 
         //Let's wait some time before Re-Spawning
         yield return new WaitForSeconds(.5f);
